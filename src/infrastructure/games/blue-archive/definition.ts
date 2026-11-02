@@ -16,11 +16,14 @@ export const BLUE_ARCHIVE: GameDefinition = {
     { key: 'memberCode', type: 'text', required: true, helpKey: 'ba.help.memberCode' },
     { key: 'characterName', type: 'text', required: false, helpKey: 'ba.help.characterName' },
   ],
-  // Official Nexon CDN assets used by the redemption page itself.
+  // Hotlinked official art (never committed): Steam library hero carries the current
+  // season key art; app icon is the Play Store listing icon. Refresh the URLs here
+  // when a new update/anniversary art drops.
   theme: {
     accent: '#3f8cff',
     accentSoft: '#e6f1ff',
-    bannerUrl: 'https://mcoupon.dn.nexoncdn.co.kr/webcoupon/bluearchive/bluearchive_header_en.jpg',
+    bannerUrl: 'https://cdn.cloudflare.steamstatic.com/steam/apps/3557620/library_hero.jpg',
+    logoUrl: 'https://play-lh.googleusercontent.com/vlVAv0UGD-knTIap84gJDkKZlnZjzhgYdAU3W6mRVkzIjc-rxtRcy5EHud3Om2haqzqW9-73AjYnYiuSluy39S4=s0-br30',
   },
   enabled: true,
 };

@@ -10,10 +10,12 @@ export const STELLA_SORA: GameDefinition = {
   accountFields: [
     { key: 'uid', type: 'text', required: true, helpKey: 'ss.help.uid' },
   ],
+  // Hotlinked official art (never committed): the site's current key visual bundle
+  // plus its favicon as square icon. Refresh the KV URL when Yostar ships new art.
   theme: {
     accent: '#8b5cf6',
     accentSoft: '#f1eaff',
-    // Yostar official favicon as logo; hero art falls back to a themed gradient in the UI.
+    bannerUrl: 'https://novaweb-usstatic.yo-star.com/h5/assets/kv-f5dd1892.jpg',
     logoUrl: 'https://novaweb-usstatic.yo-star.com/h5/favicon-b5900513.png',
   },
   enabled: true,

@@ -44,6 +44,16 @@ Create `src/infrastructure/games/<game-id>/`:
 5. Optional WebUI polish: `webui/src/games/registry.tsx` entry (guide component, art).
    The generic UI already themes itself from the definition; nothing else to touch.
 
+### Game art (copyright rule)
+
+`theme.bannerUrl`/`theme.logoUrl` must be **hotlinked URLs from official CDNs** (game key
+visuals, store listing icons) — **never commit game images to the repo**. When a game ships
+new season/anniversary art (Mihoyo-style promo art), refresh the URLs in that plugin's
+`definition.ts` (one line each). Good sources: the official site's `og:image`, Steam
+`library_hero.jpg` (`cdn.cloudflare.steamstatic.com/steam/apps/<appid>/library_hero.jpg`),
+Play Store listing icon (the `play-lh.googleusercontent.com` og:image of the store page).
+The UI degrades to a themed gradient if a URL dies.
+
 Document the reverse-engineered redemption endpoints in `docs/redemption/<game-id>.md`.
 
 ## Commands

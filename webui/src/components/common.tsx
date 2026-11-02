@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import type { ReactNode } from 'react';
 
 /** Poll immediately on mount, then every N ms (no websockets needed at this scale). */
 export function usePolling(fn: () => void, ms = 20000): void {
@@ -48,16 +49,43 @@ export function CopyButton({ value, copied, copy }: { value: string; copied: str
   );
 }
 
-export function GameHero({ bannerUrl, logoUrl, name }: { bannerUrl?: string; logoUrl?: string; name: string }) {
+/** Game header: banner left of the title on desktop, icon + title only on phones. */
+export function GameHero({
+  bannerUrl,
+  logoUrl,
+  name,
+  children,
+}: {
+  bannerUrl?: string;
+  logoUrl?: string;
+  name: string;
+  children?: ReactNode;
+}) {
   return (
-    <div
-      className="relative overflow-hidden rounded-2xl border border-slate-800"
-      style={{ background: bannerUrl ? undefined : `linear-gradient(120deg, var(--accent) 0%, transparent 60%), #0b1220` }}
-    >
-      {bannerUrl && <img src={bannerUrl} alt="" className="h-36 w-full object-cover opacity-80 sm:h-44" />}
-      <div className="absolute inset-0 flex items-center gap-3 bg-gradient-to-r from-slate-950/80 to-transparent p-4">
-        {logoUrl && <img src={logoUrl} alt="" className="size-10 rounded-lg" />}
-        <h2 className="text-2xl font-bold drop-shadow">{name}</h2>
+    <div className="flex items-center gap-4 sm:gap-6">
+      {bannerUrl && (
+        <div className="group relative hidden shrink-0 overflow-hidden rounded-2xl border border-slate-800 shadow-lg shadow-black/40 sm:block sm:w-64 md:w-80">
+          <img
+            src={bannerUrl}
+            alt=""
+            className="aspect-video w-full object-cover transition duration-500 group-hover:scale-105"
+          />
+          <div className="pointer-events-none absolute inset-0 bg-gradient-to-r from-transparent to-slate-950/30" />
+        </div>
+      )}
+      <div className="min-w-0 flex-1">
+        <div className="flex items-center gap-3">
+          {logoUrl && (
+            <img
+              src={logoUrl}
+              alt=""
+              className="size-11 rounded-xl border border-slate-700 object-cover shadow-lg sm:size-12"
+              style={{ boxShadow: '0 0 0 1px color-mix(in srgb, var(--accent) 45%, transparent)' }}
+            />
+          )}
+          <h2 className="text-2xl font-bold drop-shadow sm:text-3xl">{name}</h2>
+        </div>
+        {children}
       </div>
     </div>
   );
