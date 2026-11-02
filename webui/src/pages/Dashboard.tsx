@@ -13,7 +13,7 @@ export default function Dashboard() {
   if (games === null) return <Spinner label={t('dashboard.loading')} />;
 
   return (
-    <main>
+    <main className="page-enter">
       <h2 className="mb-4 text-lg font-bold text-slate-300">{t('dashboard.heading')}</h2>
       <div className="grid gap-4 sm:grid-cols-2">
         {games.map((game) => (

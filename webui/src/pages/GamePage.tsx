@@ -65,7 +65,7 @@ export default function GamePage() {
   };
 
   return (
-    <main style={{ ['--accent' as string]: game.theme.accent }}>
+    <main className="page-enter" style={{ ['--accent' as string]: game.theme.accent }}>
       <GameHero bannerUrl={game.theme.bannerUrl} logoUrl={game.theme.logoUrl} name={game.name} />
 
       <div className="mt-3 flex flex-wrap items-center gap-2">
