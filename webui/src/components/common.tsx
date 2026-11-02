@@ -1,5 +1,4 @@
 import { useEffect, useState } from 'react';
-import type { ReactNode } from 'react';
 
 /** Poll immediately on mount, then every N ms (no websockets needed at this scale). */
 export function usePolling(fn: () => void, ms = 20000): void {
