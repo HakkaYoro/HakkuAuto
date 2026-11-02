@@ -58,7 +58,6 @@ export function GameHero({ bannerUrl, logoUrl, name }: { bannerUrl?: string; log
       <div className="absolute inset-0 flex items-center gap-3 bg-gradient-to-r from-slate-950/80 to-transparent p-4">
         {logoUrl && <img src={logoUrl} alt="" className="size-10 rounded-lg" />}
         <h2 className="text-2xl font-bold drop-shadow">{name}</h2>
-        {children}
       </div>
     </div>
   );
