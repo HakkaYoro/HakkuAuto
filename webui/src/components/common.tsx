@@ -49,7 +49,7 @@ export function CopyButton({ value, copied, copy }: { value: string; copied: str
   );
 }
 
-export function GameHero({ bannerUrl, logoUrl, name, children }: { bannerUrl?: string; logoUrl?: string; name: string; children?: ReactNode }) {
+export function GameHero({ bannerUrl, logoUrl, name }: { bannerUrl?: string; logoUrl?: string; name: string }) {
   return (
     <div
       className="relative overflow-hidden rounded-2xl border border-slate-800"
