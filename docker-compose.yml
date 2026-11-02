@@ -1,0 +1,14 @@
+services:
+  hakku-auto:
+    build: .
+    container_name: hakku-auto
+    ports:
+      - "${PORT:-3000}:3000"
+    volumes:
+      - hakku-data:/data
+    env_file:
+      - .env
+    restart: unless-stopped
+
+volumes:
+  hakku-data:

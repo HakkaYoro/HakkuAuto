@@ -4,6 +4,9 @@
   "description": "Gacha game code scraper + auto-redeemer (Blue Archive, Stella Sora, ...)",
   "private": true,
   "type": "commonjs",
+  "allowScripts": {
+    "esbuild": true
+  },
   "scripts": {
     "dev": "concurrently -k -n server,webui -c blue,magenta \"npm:dev:server\" \"npm:dev:webui\"",
     "dev:server": "concurrently -k -n tsc,node -c yellow,green \"tsc -w -p tsconfig.build.json\" \"node --watch dist/main.js\"",
