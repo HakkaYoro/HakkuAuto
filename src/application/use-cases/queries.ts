@@ -3,7 +3,8 @@ import type { GameCodeRepository } from '../../domain/codes/game-code.repository
 import type { GameAccountRepository } from '../../domain/accounts/game-account.repository';
 import type { RedemptionRecordRepository } from '../../domain/redemptions/redemption-record.repository';
 import type { GameId } from '../../domain/games/game-id';
-import type { GameCode, CodeStatus } from '../../domain/codes/game-code';
+import type { GameCode } from '../../domain/codes/game-code';
+import { CodeStatus } from '../../domain/codes/game-code';
 import type { GameAccount } from '../../domain/accounts/game-account';
 import type { RedemptionRecord } from '../../domain/redemptions/redemption-record';
 import { RedemptionStatus } from '../../domain/redemptions/redemption-record';

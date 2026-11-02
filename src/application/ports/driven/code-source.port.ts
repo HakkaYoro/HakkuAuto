@@ -1,4 +1,4 @@
-import type { GameId } from '../../domain/games/game-id';
+import type { GameId } from '../../../domain/games/game-id';
 
 /** A code entry as scraped from an external source. */
 export interface ScrapedCodeEntry {

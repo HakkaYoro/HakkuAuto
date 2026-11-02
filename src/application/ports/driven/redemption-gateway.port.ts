@@ -1,6 +1,6 @@
-import type { GameAccount } from '../../domain/accounts/game-account';
-import type { GameCode } from '../../domain/codes/game-code';
-import { RedemptionStatus } from '../../domain/redemptions/redemption-record';
+import type { GameAccount } from '../../../domain/accounts/game-account';
+import type { GameCode } from '../../../domain/codes/game-code';
+import { RedemptionStatus } from '../../../domain/redemptions/redemption-record';
 
 export interface RedemptionResult {
   status: RedemptionStatus;

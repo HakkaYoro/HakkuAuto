@@ -15,6 +15,12 @@ export class InvalidCodeError extends DomainError {
   }
 }
 
+export class CodeNotExpiringError extends DomainError {
+  constructor(code: string) {
+    super(`Code ${code} is not due to expire yet`);
+  }
+}
+
 export interface GameCodeProps {
   key: CodeKey;
   status: CodeStatus;
@@ -103,7 +109,7 @@ export class GameCode extends AggregateRoot<CodeKey> {
   expire(now: Date = new Date()): void {
     if (this.props.status === CodeStatus.EXPIRED) return;
     if (this.props.expiresAt && this.props.expiresAt > now) {
-      throw new DomainError(`Code ${this.code} is not due to expire yet`);
+      throw new CodeNotExpiringError(this.code);
     }
     this.props = { ...this.props, status: CodeStatus.EXPIRED };
   }

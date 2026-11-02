@@ -11,7 +11,6 @@ import type { RedemptionGatewayPort, RedemptionResult } from '../ports/driven/re
 import type { EventPublisherPort } from '../ports/driven/event-publisher.port';
 import type { DomainEvent } from '../../domain/shared/entity';
 import { GameId } from '../../domain/games/game-id';
-import type { GameAccount } from '../../domain/accounts/game-account';
 
 /** Test doubles for the driven ports (see fakes usage in *.test.ts). */
 
