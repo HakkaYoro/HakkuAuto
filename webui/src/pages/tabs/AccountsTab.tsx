@@ -28,7 +28,7 @@ export default function AccountsTab({
 }) {
   const { t } = useTranslation();
   const [editing, setEditing] = useState<string | null>(null); // accountId or 'new'
-  const [form, setForm] = useState<FormState>(emptyForm(game));
+  const [form, setForm] = useState<FormState>(() => emptyForm(game));
   const [busy, setBusy] = useState(false);
   const [feedback, setFeedback] = useState<string | null>(null);
   const Guide = gameCustomization(game.id).AccountGuide;

@@ -39,6 +39,7 @@ export class ScanSchedulerService implements OnApplicationBootstrap {
     if (this.running) return; // previous pass still in flight
     this.running = true;
     try {
+      // ponytail: games scanned sequentially on purpose — stagger requests to external sources
       for (const definition of this.catalog.list()) {
         if (!definition.enabled) continue;
         try {

@@ -63,11 +63,12 @@ export class SqliteGameCodeRepository implements GameCodeRepository {
   }
 
   async findByGameAndCodes(gameId: GameId, codes: string[]): Promise<GameCode[]> {
-    const found: GameCode[] = [];
-    for (const raw of codes) {
-      const code = await this.findByKey(CodeKey.create(gameId, raw));
-      if (code) found.push(code);
-    }
-    return found;
+    if (codes.length === 0) return [];
+    const placeholders = codes.map(() => '?').join(', ');
+    const keys = codes.map((c) => CodeKey.create(gameId, c).toString());
+    const rows = this.db
+      .prepare(`SELECT * FROM game_codes WHERE key IN (${placeholders})`)
+      .all(...keys) as unknown as CodeRow[];
+    return rows.map(toDomain);
   }
 }

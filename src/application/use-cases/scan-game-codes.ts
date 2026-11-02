@@ -6,6 +6,7 @@ import type { GameCatalogPort } from '../ports/driven/game-catalog.port';
 import type { CodeSourcePort } from '../ports/driven/code-source.port';
 import type { EventPublisherPort } from '../ports/driven/event-publisher.port';
 import type { GameId } from '../../domain/games/game-id';
+import type { ScrapedCodeEntry } from '../ports/driven/code-source.port';
 
 export interface ScanResult {
   gameId: string;
@@ -29,44 +30,53 @@ export class ScanGameCodesUseCase {
     if (!definition) throw new GameNotFoundError(gameId.value);
 
     const entries = await this.sources.fetchLatest(gameId);
-    let discovered = 0;
-    let updated = 0;
+    const valid: ScrapedCodeEntry[] = [];
     let invalid = 0;
-
     for (const entry of entries) {
-      if (!GameCode.isValid(entry.code)) {
-        invalid++;
-        continue;
-      }
+      if (GameCode.isValid(entry.code)) valid.push(entry);
+      else invalid++;
+    }
+
+    // One query for the whole batch instead of a lookup per code.
+    const existing = new Map(
+      (await this.codes.findByGameAndCodes(gameId, valid.map((e) => e.code))).map((c) => [c.id.toString(), c]),
+    );
+
+    const discovered: GameCode[] = [];
+    const refreshed: GameCode[] = [];
+    for (const entry of valid) {
       const key = CodeKey.create(gameId, entry.code);
-      const existing = await this.codes.findByKey(key);
-      if (!existing) {
-        const code = GameCode.discover({
-          gameId,
-          code: entry.code,
-          reward: entry.reward,
-          expiresAt: entry.expiresAt,
-          sourceUrl: entry.sourceUrl,
-        });
-        await this.codes.save(code);
-        for (const event of code.pullEvents()) await this.events.publish(event);
-        discovered++;
-      } else if (metadataChanged(existing, entry)) {
+      const known = existing.get(key.toString());
+      if (!known) {
+        discovered.push(
+          GameCode.discover({
+            gameId,
+            code: entry.code,
+            reward: entry.reward,
+            expiresAt: entry.expiresAt,
+            sourceUrl: entry.sourceUrl,
+          }),
+        );
+      } else if (metadataChanged(known, entry)) {
         // Refresh metadata (e.g. reward text improved by the source), keep original discoveredAt.
-        const refreshed = GameCode.fromPersistence({
-          key: existing.id,
-          status: existing.status,
-          reward: entry.reward ?? existing.reward,
-          expiresAt: entry.expiresAt ?? existing.expiresAt,
-          sourceUrl: entry.sourceUrl ?? existing.sourceUrl,
-          discoveredAt: existing.discoveredAt,
-        });
-        await this.codes.save(refreshed);
-        updated++;
+        refreshed.push(
+          GameCode.fromPersistence({
+            key,
+            status: known.status,
+            reward: entry.reward ?? known.reward,
+            expiresAt: entry.expiresAt ?? known.expiresAt,
+            sourceUrl: entry.sourceUrl ?? known.sourceUrl,
+            discoveredAt: known.discoveredAt,
+          }),
+        );
       }
     }
 
-    return { gameId: gameId.value, gameName: definition.name, discovered, updated, invalid };
+    // ponytail: batched writes — sqlite runs synchronously, Promise.all just keeps the code flat
+    await Promise.all([...discovered, ...refreshed].map((code) => this.codes.save(code)));
+    await Promise.all(discovered.flatMap((code) => code.pullEvents().map((event) => this.events.publish(event))));
+
+    return { gameId: gameId.value, gameName: definition.name, discovered: discovered.length, updated: refreshed.length, invalid };
   }
 }
 
