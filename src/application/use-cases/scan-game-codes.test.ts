@@ -1,5 +1,4 @@
-import { describe, it, beforeEach } from 'node:test';
-import assert from 'node:assert/strict';
+import { describe, it, beforeEach, expect } from 'vitest';
 import { ScanGameCodesUseCase } from './scan-game-codes';
 import { RedeemCodeToAccountUseCase } from './redeem-code-to-account';
 import { RedeemPendingCodesUseCase } from './redeem-pending-codes';
@@ -40,36 +39,34 @@ describe('ScanGameCodesUseCase', () => {
   it('discovers new codes and publishes CodeDiscovered once', async () => {
     ctx.source.entries = [{ code: 'code1', reward: '100 gems' }];
     const result = await ctx.scan.execute(GAME);
-    assert.deepEqual(
-      { discovered: result.discovered, updated: result.updated, invalid: result.invalid },
-      { discovered: 1, updated: 0, invalid: 0 },
-    );
-    assert.equal(ctx.publisher.events.length, 1);
-    assert.ok(ctx.publisher.events[0] instanceof CodeDiscovered);
+    expect({ discovered: result.discovered, updated: result.updated, invalid: result.invalid }).toEqual({
+      discovered: 1,
+      updated: 0,
+      invalid: 0,
+    });
+    expect(ctx.publisher.events).toHaveLength(1);
+    expect(ctx.publisher.events[0]).toBeInstanceOf(CodeDiscovered);
 
     const again = await ctx.scan.execute(GAME);
-    assert.equal(again.discovered, 0);
-    assert.equal(ctx.publisher.events.length, 1, 'no duplicate events on rescan');
+    expect(again.discovered).toBe(0);
+    expect(ctx.publisher.events).toHaveLength(1); // no duplicate events on rescan
   });
 
   it('skips invalid scraped codes and refreshes changed metadata', async () => {
     ctx.source.entries = [{ code: 'BAD!!' }];
-    assert.equal((await ctx.scan.execute(GAME)).invalid, 1);
+    expect((await ctx.scan.execute(GAME)).invalid).toBe(1);
 
     ctx.source.entries = [{ code: 'CODE1', reward: '100 gems' }];
     await ctx.scan.execute(GAME);
     ctx.source.entries = [{ code: 'CODE1', reward: '200 gems' }];
     const result = await ctx.scan.execute(GAME);
-    assert.deepEqual(
-      { discovered: result.discovered, updated: result.updated },
-      { discovered: 0, updated: 1 },
-    );
+    expect({ discovered: result.discovered, updated: result.updated }).toEqual({ discovered: 0, updated: 1 });
     const stored = await ctx.codes.findByKey({ gameId: GAME, code: 'CODE1' });
-    assert.equal(stored?.reward, '200 gems');
+    expect(stored?.reward).toBe('200 gems');
   });
 
   it('rejects unknown games', async () => {
-    await assert.rejects(() => ctx.scan.execute(GameId.create('nope')), /not registered/);
+    await expect(ctx.scan.execute(GameId.create('nope'))).rejects.toThrow(/not registered/);
   });
 });
 
@@ -86,21 +83,21 @@ describe('RedeemCodeToAccountUseCase', () => {
 
   it('redeems and records the attempt', async () => {
     const record = await ctx.redeemOne.execute({ accountId: 'acc-1', code: 'code1' });
-    assert.equal(record.status, RedemptionStatus.SUCCESS);
-    assert.equal(ctx.records.records.length, 1);
-    assert.equal(ctx.gateway.calls[0].account.id, 'acc-1');
+    expect(record.status).toBe(RedemptionStatus.SUCCESS);
+    expect(ctx.records.records).toHaveLength(1);
+    expect(ctx.gateway.calls[0].account.id).toBe('acc-1');
   });
 
   it('records failed gateway results too', async () => {
     ctx.gateway.result = { status: RedemptionStatus.EXPIRED, rawMessage: 'code expired' };
     const record = await ctx.redeemOne.execute({ accountId: 'acc-1', code: 'CODE1' });
-    assert.equal(record.status, RedemptionStatus.EXPIRED);
-    assert.equal(record.rawMessage, 'code expired');
+    expect(record.status).toBe(RedemptionStatus.EXPIRED);
+    expect(record.rawMessage).toBe('code expired');
   });
 
   it('404s on unknown account or code', async () => {
-    await assert.rejects(() => ctx.redeemOne.execute({ accountId: 'nope', code: 'CODE1' }), /not found/);
-    await assert.rejects(() => ctx.redeemOne.execute({ accountId: 'acc-1', code: 'MISSING1' }), /not found/);
+    await expect(ctx.redeemOne.execute({ accountId: 'nope', code: 'CODE1' })).rejects.toThrow(/not found/);
+    await expect(ctx.redeemOne.execute({ accountId: 'acc-1', code: 'MISSING1' })).rejects.toThrow(/not found/);
   });
 });
 
@@ -124,12 +121,12 @@ describe('RedeemPendingCodesUseCase', () => {
 
   it('redeems every active code on autoRedeem accounts only, never twice', async () => {
     const first = await ctx.redeemAll.execute(GAME);
-    assert.deepEqual({ attempts: first.attempts, successful: first.successful }, { attempts: 2, successful: 2 });
-    assert.ok(ctx.gateway.calls.every((c) => c.account.id === 'acc-1'), 'manual account untouched');
+    expect({ attempts: first.attempts, successful: first.successful }).toEqual({ attempts: 2, successful: 2 });
+    expect(ctx.gateway.calls.every((c) => c.account.id === 'acc-1')).toBe(true); // manual account untouched
 
     const second = await ctx.redeemAll.execute(GAME);
-    assert.equal(second.attempts, 0, 'successful codes skipped, expired code skipped');
-    assert.equal(second.successful, 0);
-    assert.equal(ctx.gateway.calls.length, 2);
+    expect(second.attempts).toBe(0); // successful codes skipped, expired code skipped
+    expect(second.successful).toBe(0);
+    expect(ctx.gateway.calls).toHaveLength(2);
   });
 });

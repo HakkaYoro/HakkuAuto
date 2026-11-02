@@ -1,5 +1,4 @@
-import { describe, it } from 'node:test';
-import assert from 'node:assert/strict';
+import { describe, it, expect } from 'vitest';
 import { GameAccount, InvalidAccountError } from './game-account';
 import { validateAccountInput } from './credentials';
 import { GameId } from '../games/game-id';
@@ -29,27 +28,29 @@ describe('GameAccount', () => {
       server: 'global',
       credentials: { memberCode: 'ABCD1234' },
     });
-    assert.equal(acc.label, 'Main');
-    assert.equal(acc.autoRedeem, true);
+    expect(acc.label).toBe('Main');
+    expect(acc.autoRedeem).toBe(true);
   });
 
   it('rejects empty labels', () => {
-    assert.throws(() => GameAccount.create({ id: 'a1', gameId: BA.id, label: '  ', server: 'global', credentials: {} }), InvalidAccountError);
+    expect(() => GameAccount.create({ id: 'a1', gameId: BA.id, label: '  ', server: 'global', credentials: {} })).toThrow(
+      InvalidAccountError,
+    );
   });
 
   it('validateAccountInput enforces schema from the game definition', () => {
-    assert.doesNotThrow(() => validateAccountInput(BA, { server: 'global', credentials: { memberCode: 'X' } }));
-    assert.throws(() => validateAccountInput(BA, { server: 'korea', credentials: { memberCode: 'X' } }), InvalidAccountError);
-    assert.throws(() => validateAccountInput(BA, { server: 'global', credentials: {} }), InvalidAccountError);
+    expect(() => validateAccountInput(BA, { server: 'global', credentials: { memberCode: 'X' } })).not.toThrow();
+    expect(() => validateAccountInput(BA, { server: 'korea', credentials: { memberCode: 'X' } })).toThrow(InvalidAccountError);
+    expect(() => validateAccountInput(BA, { server: 'global', credentials: {} })).toThrow(InvalidAccountError);
   });
 
   it('credential updates are copied (no shared references)', () => {
     const creds = { memberCode: 'A' };
     const acc = GameAccount.create({ id: 'a1', gameId: BA.id, label: 'Main', server: 'global', credentials: creds });
     creds.memberCode = 'B';
-    assert.equal(acc.credentials.memberCode, 'A');
+    expect(acc.credentials.memberCode).toBe('A');
     acc.updateCredentials('japan', { memberCode: 'C' });
-    assert.equal(acc.server, 'japan');
-    assert.equal(acc.credentials.memberCode, 'C');
+    expect(acc.server).toBe('japan');
+    expect(acc.credentials.memberCode).toBe('C');
   });
 });
