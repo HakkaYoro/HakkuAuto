@@ -3,7 +3,6 @@
 :root {
   color-scheme: dark;
   --accent: #3f8cff;
-  --accent-soft: #e6f1ff;
 }
 
 body {
@@ -15,7 +14,7 @@ body {
   min-height: 100vh;
 }
 
-/* Per-game theming: pages set --accent/--accent-soft inline from game metadata */
+/* Per-game theming: pages set --accent inline from game metadata */
 
 /* Route / tab transitions: containers re-key by path or tab get .page-enter */
 @keyframes page-in {

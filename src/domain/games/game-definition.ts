@@ -17,7 +17,6 @@ export interface AccountField {
 /** Per-game visual identity used by the WebUI (official art, colors). */
 export interface GameTheme {
   accent: string;
-  accentSoft: string;
   bannerUrl?: string;
   logoUrl?: string;
 }

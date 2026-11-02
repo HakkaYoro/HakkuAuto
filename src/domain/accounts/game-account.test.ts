@@ -16,7 +16,7 @@ const BA: GameDefinition = {
   accountFields: [
     { key: 'memberCode', type: 'text', required: true, helpKey: 'help.memberCode' },
   ],
-  theme: { accent: '#4f8ef7', accentSoft: '#dceaff' },
+  theme: { accent: '#4f8ef7' },
   enabled: true,
 };
 

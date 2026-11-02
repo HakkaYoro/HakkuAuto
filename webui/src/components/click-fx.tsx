@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useLocation } from 'react-router-dom';
 import { defaultClickFx, gameCustomization, type ClickFx } from '../games/registry';
 
@@ -17,6 +17,7 @@ interface Burst {
 }
 
 const COUNT = 8;
+let nextId = 0;
 
 function spawnParticles(colors: string[]): Particle[] {
   return Array.from({ length: COUNT }, (_, i) => ({
@@ -32,13 +33,12 @@ export default function ClickFx() {
   const { pathname } = useLocation();
   const fx: ClickFx = gameCustomization(pathname.split('/')[2] ?? '').clickFx ?? defaultClickFx;
   const [bursts, setBursts] = useState<Burst[]>([]);
-  const nextId = useRef(0);
 
   useEffect(() => {
     if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
     const onDown = (e: PointerEvent) => {
       if (e.button !== 0) return;
-      const id = nextId.current++;
+      const id = ++nextId;
       const particles = spawnParticles(fx.colors);
       setBursts((b) => [...b.slice(-4), { id, x: e.clientX, y: e.clientY, particles }]);
     };

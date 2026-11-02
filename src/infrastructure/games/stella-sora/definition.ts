@@ -14,7 +14,6 @@ export const STELLA_SORA: GameDefinition = {
   // plus its favicon as square icon. Refresh the KV URL when Yostar ships new art.
   theme: {
     accent: '#8b5cf6',
-    accentSoft: '#f1eaff',
     bannerUrl: 'https://novaweb-usstatic.yo-star.com/h5/assets/kv-f5dd1892.jpg',
     logoUrl: 'https://novaweb-usstatic.yo-star.com/h5/favicon-b5900513.png',
   },

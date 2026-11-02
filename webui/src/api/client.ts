@@ -14,7 +14,6 @@ export interface AccountField {
 
 export interface GameTheme {
   accent: string;
-  accentSoft: string;
   bannerUrl?: string;
   logoUrl?: string;
 }

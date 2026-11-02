@@ -123,6 +123,6 @@ export const TEST_DEFINITION: GameDefinition = {
     { value: 's2', label: 'Server 2' },
   ],
   accountFields: [{ key: 'uid', type: 'text', required: true, helpKey: 'help.uid' }],
-  theme: { accent: '#fff', accentSoft: '#eee' },
+  theme: { accent: '#fff' },
   enabled: true,
 };
