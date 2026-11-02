@@ -16,8 +16,45 @@ body {
 }
 
 /* Per-game theming: pages set --accent/--accent-soft inline from game metadata */
-.game-themed {
-  --tw-ring-color: var(--accent);
+
+/* Route / tab transitions: containers re-key by path or tab get .page-enter */
+@keyframes page-in {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+}
+
+.page-enter {
+  animation: page-in 280ms ease-out;
+}
+
+/* Click burst particles (spawned by webui/src/components/click-fx.tsx) */
+.fx-particle {
+  position: absolute;
+  left: 0;
+  top: 0;
+  animation: fx-burst 650ms ease-out forwards;
+}
+
+@keyframes fx-burst {
+  from {
+    transform: translate(-50%, -50%) rotate(calc(var(--angle) - 60deg)) translateX(0) scale(1);
+    opacity: 1;
+  }
+  to {
+    transform: translate(-50%, -50%) rotate(calc(var(--angle) + 60deg)) translateX(var(--dist)) scale(0.3);
+    opacity: 0;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .page-enter {
+    animation: none;
+  }
+  .fx-particle {
+    display: none;
+  }
 }
 
 .btn-accent {

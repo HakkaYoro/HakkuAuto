@@ -1,9 +1,11 @@
-import { Outlet, Link } from 'react-router-dom';
+import { Outlet, Link, useLocation } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { LANGS, setLanguage } from './i18n';
+import ClickFx from './components/click-fx';
 
 export default function App() {
   const { t } = useTranslation();
+  const location = useLocation();
   return (
     <div className="mx-auto max-w-5xl px-4 pb-16">
       <header className="flex items-center justify-between py-6">
@@ -27,7 +29,11 @@ export default function App() {
           ))}
         </div>
       </header>
-      <Outlet />
+      {/* Re-keying by pathname replays the entry animation on every navigation. */}
+      <div key={location.pathname} className="page-enter">
+        <Outlet />
+      </div>
+      <ClickFx />
     </div>
   );
 }

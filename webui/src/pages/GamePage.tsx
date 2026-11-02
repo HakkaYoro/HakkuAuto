@@ -101,7 +101,7 @@ export default function GamePage() {
         ))}
       </nav>
 
-      <section className="mt-4">
+      <section key={tab} className="page-enter mt-4">
         {tab === 'codes' && <CodesTab gameId={gameId} codes={codes} accounts={accounts} onChanged={() => void load()} />}
         {tab === 'accounts' && <AccountsTab game={game} accounts={accounts} onChanged={() => void load()} />}
         {tab === 'history' && <HistoryTab records={history} accounts={accounts} />}
