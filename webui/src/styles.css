@@ -1,0 +1,38 @@
+@import "tailwindcss";
+
+:root {
+  color-scheme: dark;
+  --accent: #3f8cff;
+  --accent-soft: #e6f1ff;
+}
+
+body {
+  @apply bg-slate-950 text-slate-200 antialiased;
+  background-image:
+    radial-gradient(ellipse 80% 50% at 20% -10%, oklch(from var(--accent) l c h / 0.12), transparent),
+    radial-gradient(ellipse 60% 40% at 90% 0%, oklch(from var(--accent) l c h / 0.07), transparent);
+  background-attachment: fixed;
+  min-height: 100vh;
+}
+
+/* Per-game theming: pages set --accent/--accent-soft inline from game metadata */
+.game-themed {
+  --tw-ring-color: var(--accent);
+}
+
+.btn-accent {
+  @apply rounded-lg px-3 py-1.5 text-sm font-semibold text-white transition hover:brightness-110 disabled:cursor-not-allowed disabled:opacity-40;
+  background: var(--accent);
+}
+
+.card {
+  @apply rounded-2xl border border-slate-800 bg-slate-900/60 backdrop-blur;
+}
+
+.input {
+  @apply w-full rounded-lg border border-slate-700 bg-slate-950/70 px-3 py-2 text-sm outline-none placeholder:text-slate-500 focus:border-[var(--accent)];
+}
+
+.chip {
+  @apply inline-flex items-center gap-1 rounded-full px-2 py-0.5 text-xs font-medium;
+}

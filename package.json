@@ -7,10 +7,10 @@
   "scripts": {
     "dev": "concurrently -k -n server,webui -c blue,magenta \"npm:dev:server\" \"npm:dev:webui\"",
     "dev:server": "concurrently -k -n tsc,node -c yellow,green \"tsc -w -p tsconfig.build.json\" \"node --watch dist/main.js\"",
-    "dev:webui": "vite",
+    "dev:webui": "vite -c webui/vite.config.ts",
     "build": "npm run build:server && npm run build:webui",
     "build:server": "tsc -p tsconfig.build.json",
-    "build:webui": "vite build",
+    "build:webui": "vite build -c webui/vite.config.ts",
     "start": "node dist/main.js",
     "test": "tsx --test \"src/**/*.test.ts\""
   },
