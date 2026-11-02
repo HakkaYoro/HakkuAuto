@@ -17,7 +17,6 @@ interface Burst {
 }
 
 const COUNT = 8;
-const LIFE_MS = 650;
 
 function spawnParticles(colors: string[]): Particle[] {
   return Array.from({ length: COUNT }, (_, i) => ({
@@ -42,12 +41,14 @@ export default function ClickFx() {
       const id = nextId.current++;
       const particles = spawnParticles(fx.colors);
       setBursts((b) => [...b.slice(-4), { id, x: e.clientX, y: e.clientY, particles }]);
-      setTimeout(() => setBursts((b) => b.filter((burst) => burst.id !== id)), LIFE_MS);
     };
     window.addEventListener('pointerdown', onDown, { passive: true });
     return () => window.removeEventListener('pointerdown', onDown);
     // eslint-disable-next-line react-hooks/exhaustive-deps -- fx colors are frozen at spawn; the glyph renders fresh
   }, []);
+
+  // The first particle's animationend retires the whole burst — no timers to clean up.
+  const retire = (id: number) => setBursts((b) => b.filter((burst) => burst.id !== id));
 
   return (
     <div aria-hidden className="pointer-events-none fixed inset-0 z-50 overflow-hidden">
@@ -57,6 +58,7 @@ export default function ClickFx() {
             <span
               key={i}
               className="fx-particle"
+              onAnimationEnd={i === 0 ? () => retire(burst.id) : undefined}
               style={{
                 width: p.size,
                 height: p.size,
