@@ -1,7 +1,11 @@
 node_modules/
 dist/
 data/
+coverage/
+.vite/
+*.tsbuildinfo
 .env
 *.log
 .DS_Store
+.zcode/
 graphify-out/

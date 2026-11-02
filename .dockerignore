@@ -1,7 +1,15 @@
 node_modules/
 dist/
 data/
+coverage/
+.vite/
+*.tsbuildinfo
 .env
 *.log
 .git/
+.zcode/
+graphify-out/
 docs/
+README.md
+LICENSE
+AGENTS.md
