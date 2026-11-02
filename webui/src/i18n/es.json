@@ -33,6 +33,10 @@
   "accounts.edit": "Editar cuenta",
   "accounts.label": "Nombre (ej: Main, Alt1)",
   "accounts.server": "Servidor",
+  "accounts.optional": "opcional",
+  "accounts.field.memberCode": "Código de miembro",
+  "accounts.field.characterName": "Personaje destino",
+  "accounts.field.uid": "UID",
   "accounts.autoRedeem": "Canje automático",
   "accounts.autoRedeemHint": "Los códigos nuevos se canjearán solos en esta cuenta",
   "accounts.verify": "Verificar",
@@ -46,7 +50,7 @@
   "accounts.manual": "Asistencia manual",
 
   "ba.help.memberCode": "Menú (esquina superior derecha) → Cuenta → Atención al cliente → tu código de miembro (12–13 caracteres).",
-  "ba.help.characterName": "Opcional. Si la cuenta tiene varios personajes, elige a quién entregar los ítems.",
+  "ba.help.characterName": "El sitio oficial te pide elegir un personaje después del código — como acá el canje es automático, este nombre opcional le dice a quién entregar. Vacío = tu primer personaje.",
 
   "ss.help.uid": "Abre tu perfil en el juego y copia tu UID (mínimo 9 dígitos).",
   "ss.help.uid.step1": "Stella Sora → perfil (retrato)",

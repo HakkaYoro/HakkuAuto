@@ -10,7 +10,7 @@ export default function App() {
     <div className="mx-auto max-w-5xl px-4 pb-16">
       <header className="flex items-center justify-between py-6">
         <Link to="/" className="group">
-          <img src="/logo.png" alt="HakkuAuto" className="h-12 w-auto" />
+          <img src="/logo.png" alt="HakkuAuto" className="h-16 w-auto" />
           <p className="text-xs text-slate-400">{t('app.subtitle')}</p>
         </Link>
         <div className="flex items-center gap-2">

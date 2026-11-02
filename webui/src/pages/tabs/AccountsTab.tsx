@@ -144,8 +144,8 @@ export default function AccountsTab({
           {game.accountFields.map((field) => (
             <label key={field.key} className="block text-sm">
               <span className="mb-1 block text-slate-400">
-                {field.key}
-                {!field.required && <span className="text-slate-500"> (opcional)</span>}
+                {t(`accounts.field.${field.key}`, { defaultValue: field.key })}
+                {!field.required && <span className="text-slate-500"> ({t('accounts.optional')})</span>}
               </span>
               <input
                 className="input font-mono"

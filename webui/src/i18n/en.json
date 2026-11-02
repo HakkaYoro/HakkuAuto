@@ -33,6 +33,10 @@
   "accounts.edit": "Edit account",
   "accounts.label": "Name (e.g. Main, Alt1)",
   "accounts.server": "Server",
+  "accounts.optional": "optional",
+  "accounts.field.memberCode": "Member code",
+  "accounts.field.characterName": "Target character",
+  "accounts.field.uid": "UID",
   "accounts.autoRedeem": "Auto-redeem",
   "accounts.autoRedeemHint": "New codes will be redeemed automatically on this account",
   "accounts.verify": "Verify",
@@ -46,7 +50,7 @@
   "accounts.manual": "Manual assist",
 
   "ba.help.memberCode": "Menu (top-right) → Account → Customer Center → your member code (12–13 characters).",
-  "ba.help.characterName": "Optional. If the account has several characters, pick who receives the items.",
+  "ba.help.characterName": "The official site asks you to pick a character after entering the member code — since redemption here is automatic, this optional name tells it who gets the items. Empty = your first character.",
 
   "ss.help.uid": "Open your profile in-game and copy your UID (at least 9 digits).",
   "ss.help.uid.step1": "Stella Sora → profile (portrait)",
