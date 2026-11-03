@@ -3,7 +3,7 @@ import { GameCode, CodeStatus } from '../../domain/codes/game-code';
 import type { GameAccountRepository } from '../../domain/accounts/game-account.repository';
 import { GameAccount } from '../../domain/accounts/game-account';
 import type { RedemptionRecordRepository } from '../../domain/redemptions/redemption-record.repository';
-import { RedemptionRecord, RedemptionStatus } from '../../domain/redemptions/redemption-record';
+import { RedemptionRecord, RedemptionStatus, NON_RETRYABLE_STATUSES } from '../../domain/redemptions/redemption-record';
 import type { GameCatalogPort } from '../ports/driven/game-catalog.port';
 import type { GameDefinition } from '../../domain/games/game-definition';
 import type { CodeSourcePort, ScrapedCodeEntry } from '../ports/driven/code-source.port';
@@ -34,8 +34,8 @@ export class FakeCodeSource implements CodeSourcePort {
 }
 
 export class FakeGateway implements RedemptionGatewayPort {
-  result: RedemptionResult = { status: RedemptionStatus.SUCCESS };
   calls: Array<{ account: GameAccount; code: GameCode }> = [];
+  constructor(public result: RedemptionResult = { status: RedemptionStatus.SUCCESS }) {}
   async redeem(account: GameAccount, code: GameCode): Promise<RedemptionResult> {
     this.calls.push({ account, code });
     return this.result;
@@ -90,14 +90,14 @@ export class InMemoryRecordRepository implements RedemptionRecordRepository {
   async save(record: RedemptionRecord): Promise<void> {
     this.records.push(record);
   }
-  async findSuccessful(accountId: string, gameId: GameId, code: string): Promise<RedemptionRecord | null> {
+  async findNonRetryable(accountId: string, gameId: GameId, code: string): Promise<RedemptionRecord | null> {
     return (
       this.records.find(
         (r) =>
           r.accountId === accountId &&
           r.gameId.equals(gameId) &&
           r.code === code &&
-          r.wasSuccessful(),
+          NON_RETRYABLE_STATUSES.includes(r.status),
       ) ?? null
     );
   }

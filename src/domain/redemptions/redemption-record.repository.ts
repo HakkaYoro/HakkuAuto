@@ -4,8 +4,8 @@ import type { RedemptionRecord } from './redemption-record';
 
 export interface RedemptionRecordRepository {
   save(record: RedemptionRecord): Promise<void>;
-  /** Successful attempts (SUCCESS / ALREADY_USED) for one account+code — dedupe for auto-redeem. */
-  findSuccessful(accountId: string, gameId: GameId, code: string): Promise<RedemptionRecord | null>;
+  /** Dedupe for auto-redeem — last record whose status is terminal for this account+code. */
+  findNonRetryable(accountId: string, gameId: GameId, code: string): Promise<RedemptionRecord | null>;
   findHistory(filter: { gameId?: GameId; accountId?: string; status?: RedemptionStatus; limit?: number }): Promise<
     RedemptionRecord[]
   >;

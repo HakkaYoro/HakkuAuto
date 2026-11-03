@@ -31,6 +31,7 @@ export default function AccountsTab({
   const [form, setForm] = useState<FormState>(() => emptyForm(game));
   const [busy, setBusy] = useState(false);
   const [feedback, setFeedback] = useState<string | null>(null);
+  const [actionError, setActionError] = useState<string | null>(null);
   const Guide = gameCustomization(game.id).AccountGuide;
 
   const openEdit = (acc?: AccountDto) => {
@@ -76,17 +77,33 @@ export default function AccountsTab({
 
   const remove = async (acc: AccountDto) => {
     if (!confirm(t('accounts.deleteConfirm', { label: acc.label }))) return;
-    await api.deleteAccount(game.id, acc.id);
-    onChanged();
+    setActionError(null);
+    try {
+      await api.deleteAccount(game.id, acc.id);
+      onChanged();
+    } catch (err) {
+      setActionError((err as Error).message);
+    }
   };
 
   const toggleAuto = async (acc: AccountDto) => {
-    await api.updateAccount(game.id, acc.id, { autoRedeem: !acc.autoRedeem });
-    onChanged();
+    setActionError(null);
+    try {
+      await api.updateAccount(game.id, acc.id, { autoRedeem: !acc.autoRedeem });
+      onChanged();
+    } catch (err) {
+      setActionError((err as Error).message);
+    }
   };
 
   return (
     <div className="space-y-3">
+      {actionError !== null && (
+        <div className="rounded-lg bg-rose-500/10 px-3 py-2 text-sm text-rose-400">
+          {t('accounts.actionFailed')}
+          {actionError && <span className="block text-xs text-rose-400/70">{actionError}</span>}
+        </div>
+      )}
       {accounts.map((acc) => (
         <div key={acc.id} className="card flex flex-wrap items-center gap-3 p-3">
           <div className="flex-1">

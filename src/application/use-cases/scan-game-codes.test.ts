@@ -129,4 +129,32 @@ describe('RedeemPendingCodesUseCase', () => {
     expect(second.successful).toBe(0);
     expect(ctx.gateway.calls).toHaveLength(2);
   });
+
+  it('treats EXPIRED as terminal: no attempts on the second pass', async () => {
+    ctx.gateway.result = { status: RedemptionStatus.EXPIRED, rawMessage: 'code expired' };
+    expect((await ctx.redeemAll.execute(GAME)).attempts).toBe(2);
+    expect((await ctx.redeemAll.execute(GAME)).attempts).toBe(0);
+    expect(ctx.gateway.calls).toHaveLength(2);
+  });
+
+  it('treats ALREADY_USED as terminal: no attempts on the second pass', async () => {
+    ctx.gateway.result = { status: RedemptionStatus.ALREADY_USED };
+    expect((await ctx.redeemAll.execute(GAME)).attempts).toBe(2);
+    expect((await ctx.redeemAll.execute(GAME)).attempts).toBe(0);
+    expect(ctx.gateway.calls).toHaveLength(2);
+  });
+
+  it('retries FAILED on the next scan', async () => {
+    ctx.gateway.result = { status: RedemptionStatus.FAILED, rawMessage: 'network hiccup' };
+    expect((await ctx.redeemAll.execute(GAME)).attempts).toBe(2);
+    expect((await ctx.redeemAll.execute(GAME)).attempts).toBe(2);
+    expect(ctx.gateway.calls).toHaveLength(4);
+  });
+
+  it('retries NEEDS_MANUAL on the next scan', async () => {
+    ctx.gateway.result = { status: RedemptionStatus.NEEDS_MANUAL, rawMessage: 'captcha' };
+    expect((await ctx.redeemAll.execute(GAME)).attempts).toBe(2);
+    expect((await ctx.redeemAll.execute(GAME)).attempts).toBe(2);
+    expect(ctx.gateway.calls).toHaveLength(4);
+  });
 });

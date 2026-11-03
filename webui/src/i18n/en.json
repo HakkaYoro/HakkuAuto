@@ -42,6 +42,7 @@
   "accounts.delete": "Delete",
   "accounts.deleteConfirm": "Delete account «{{label}}»?",
   "accounts.empty": "No accounts for this game yet.",
+  "accounts.actionFailed": "Action failed — check the server and try again.",
   "ba.help.memberCode": "Menu (top-right) → Account → Customer Center → your member code (12–13 characters).",
   "ss.help.uid": "Open your profile in-game and copy your UID (at least 9 digits).",
   "ss.help.uid.step1": "Stella Sora → profile (portrait)",
@@ -59,5 +60,9 @@
   "history.status.INVALID_CODE": "Invalid code",
   "history.status.NEEDS_MANUAL": "Needs manual",
   "history.status.FAILED": "Failed",
+  "lock.title": "API token required",
+  "lock.placeholder": "API token",
+  "lock.save": "Save",
+  "lock.wrong": "That token was rejected — check it and try again.",
   "common.loading": "Loading…"
 }

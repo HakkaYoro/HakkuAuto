@@ -15,6 +15,7 @@ export const TOKENS = {
   // infrastructure services exposed to presentation
   GameRegistry: Symbol('GameRegistry'),
   ScanScheduler: Symbol('ScanScheduler'),
+  ApiToken: Symbol('ApiToken'),
   // use cases
   ScanGameCodes: Symbol('ScanGameCodes'),
   RedeemPendingCodes: Symbol('RedeemPendingCodes'),

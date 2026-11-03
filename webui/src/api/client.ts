@@ -75,11 +75,17 @@ export interface ScanResult {
 }
 
 async function request<T>(path: string, init?: RequestInit): Promise<T> {
+  const token = localStorage.getItem('hakku.token');
   const res = await fetch(`/api${path}`, {
-    headers: { 'Content-Type': 'application/json', ...(init?.headers ?? {}) },
     ...init,
+    headers: {
+      'Content-Type': 'application/json',
+      ...(token ? { 'X-API-Token': token } : {}),
+      ...(init?.headers ?? {}),
+    },
   });
   if (!res.ok) {
+    if (res.status === 401) window.dispatchEvent(new CustomEvent('hakku:unauthorized'));
     const body = (await res.json().catch(() => ({}))) as { error?: string };
     throw new Error(body.error ?? `HTTP ${res.status}`);
   }

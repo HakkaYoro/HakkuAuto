@@ -13,6 +13,14 @@ export enum RedemptionStatus {
 
 export const SUCCESSFUL_STATUSES: readonly RedemptionStatus[] = [RedemptionStatus.SUCCESS, RedemptionStatus.ALREADY_USED];
 
+/** Terminal outcomes: a later scan can never change them, so auto-redeem skips them. */
+export const NON_RETRYABLE_STATUSES: readonly RedemptionStatus[] = [
+  RedemptionStatus.SUCCESS,
+  RedemptionStatus.ALREADY_USED,
+  RedemptionStatus.EXPIRED,
+  RedemptionStatus.INVALID_CODE,
+];
+
 export interface RedemptionRecordProps {
   id: string;
   accountId: string;

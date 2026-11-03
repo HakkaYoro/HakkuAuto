@@ -17,7 +17,7 @@ const DEFAULT_DELAY_MS = 1500;
 
 /**
  * Full-auto flow: for every account of the game with autoRedeem enabled,
- * redeem all unexpired ACTIVE codes it has not successfully redeemed yet.
+ * redeem all unexpired ACTIVE codes it has no terminal attempt recorded for yet.
  */
 export class RedeemPendingCodesUseCase {
   private readonly redeemOne: RedeemCodeToAccountUseCase;
@@ -44,7 +44,7 @@ export class RedeemPendingCodesUseCase {
     for (const account of accounts) {
       for (const code of activeCodes) {
         if (code.isExpired()) continue;
-        if (await this.records.findSuccessful(account.id, gameId, code.code)) continue;
+        if (await this.records.findNonRetryable(account.id, gameId, code.code)) continue;
 
         const record = await this.redeemOne.execute({ accountId: account.id, code: code.code });
         attempts++;

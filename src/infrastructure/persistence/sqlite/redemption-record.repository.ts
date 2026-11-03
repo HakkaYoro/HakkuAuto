@@ -1,5 +1,5 @@
 import type { DatabaseSync } from 'node:sqlite';
-import { RedemptionRecord, RedemptionStatus, SUCCESSFUL_STATUSES } from '../../../domain/redemptions/redemption-record';
+import { RedemptionRecord, RedemptionStatus, NON_RETRYABLE_STATUSES } from '../../../domain/redemptions/redemption-record';
 import { GameId } from '../../../domain/games/game-id';
 import type { RedemptionRecordRepository } from '../../../domain/redemptions/redemption-record.repository';
 
@@ -43,15 +43,15 @@ export class SqliteRedemptionRecordRepository implements RedemptionRecordReposit
     );
   }
 
-  async findSuccessful(accountId: string, gameId: GameId, code: string): Promise<RedemptionRecord | null> {
-    const placeholders = SUCCESSFUL_STATUSES.map(() => '?').join(', ');
+  async findNonRetryable(accountId: string, gameId: GameId, code: string): Promise<RedemptionRecord | null> {
+    const placeholders = NON_RETRYABLE_STATUSES.map(() => '?').join(', ');
     const row = this.db
       .prepare(
         `SELECT * FROM redemption_records
          WHERE account_id = ? AND game_id = ? AND code = ? AND status IN (${placeholders})
          ORDER BY attempted_at DESC LIMIT 1`,
       )
-      .get(accountId, gameId.value, code, ...SUCCESSFUL_STATUSES) as RecordRow | undefined;
+      .get(accountId, gameId.value, code, ...NON_RETRYABLE_STATUSES) as RecordRow | undefined;
     return row ? toDomain(row) : null;
   }
 

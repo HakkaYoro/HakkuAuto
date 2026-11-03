@@ -1,5 +1,5 @@
 import { Module, ValidationPipe } from '@nestjs/common';
-import { APP_FILTER, APP_PIPE } from '@nestjs/core';
+import { APP_FILTER, APP_GUARD, APP_PIPE } from '@nestjs/core';
 import { ScheduleModule } from '@nestjs/schedule';
 import type { DatabaseSync } from 'node:sqlite';
 import { TOKENS } from './infrastructure/di-tokens';
@@ -31,6 +31,7 @@ import { GamesController } from './presentation/controllers/games.controller';
 import { AccountsController } from './presentation/controllers/accounts.controller';
 import { RedemptionsController } from './presentation/controllers/redemptions.controller';
 import { DomainErrorFilter } from './presentation/filters/domain-error.filter';
+import { ApiTokenGuard } from './presentation/guards/api-token.guard';
 
 const DB = Symbol('SqliteDatabase');
 
@@ -44,6 +45,9 @@ const DB = Symbol('SqliteDatabase');
     { provide: APP_PIPE, useValue: new ValidationPipe({ whitelist: true, transform: true }) },
     // Without APP_FILTER a filter class in providers is just an unused instance.
     { provide: APP_FILTER, useClass: DomainErrorFilter },
+    // Opt-in API auth: guards only Nest routes; the static WebUI in main.ts stays public.
+    { provide: APP_GUARD, useClass: ApiTokenGuard },
+    { provide: TOKENS.ApiToken, useFactory: () => process.env.API_TOKEN ?? '' },
     { provide: DB, useFactory: () => getDatabase() },
     {
       provide: TOKENS.GameRegistry,

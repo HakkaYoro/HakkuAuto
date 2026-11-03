@@ -33,7 +33,7 @@ flowchart LR
 - **Scrape & dedupe** — code sources are plain adapters; codes normalize, dedupe and expire in the domain layer.
 - **Full-auto redemption** — new codes go straight to every account with `autoRedeem` enabled, with a courtesy delay between requests to the official sites.
 - **Per-account control** — enable/disable auto-redeem per account, redeem manually anytime, inspect the full history per game.
-- **Honest failures** — provider errors map to real statuses (`ALREADY_USED`, `EXPIRED`, `INVALID_CODE`, ...). When a flow requires a captcha, the code is flagged `NEEDS_MANUAL` with a deep link to the official site — HakkuAuto never tries to bypass protections.
+- **Honest failures** — provider errors map to real statuses (`ALREADY_USED`, `EXPIRED`, `INVALID_CODE`, ...). Terminal failures (`EXPIRED`, `INVALID_CODE`) are never retried per account; transient ones (rate-limit, network errors) retry on the next scan. When a flow requires a captcha, the code is flagged `NEEDS_MANUAL` with a deep link to the official site — HakkuAuto never tries to bypass protections.
 - **Themed per game** — each game plugin ships its accent colors and official art URLs; the generic UI dresses itself. Click anywhere on a game page for game-themed particle bursts.
 - **Bilingual UI** — Spanish/English toggle, persisted; new languages are one flat JSON file each.
 - **One deploy** — single NestJS app serves both the API and the built React bundle; one container, one SQLite file.
@@ -53,7 +53,7 @@ Reverse-engineered redemption endpoints are documented in [`docs/redemption/`](d
 Docker (recommended):
 
 ```bash
-cp .env.example .env   # optional; defaults work out of the box
+cp .env.example .env   # optional; defaults work out of the box (set API_TOKEN here if your LAN is shared)
 docker compose up --build
 ```
 
@@ -76,6 +76,7 @@ npm test               # Vitest
 | `SCAN_MINUTES` | `30` | Minutes between automatic source scans |
 | `REDEEM_DELAY_MS` | `1500` | Courtesy pause between redemptions of the same game |
 | `STARTUP_SCAN` | `true` | Run a scan right after boot |
+| `API_TOKEN` | _(empty)_ | Shared secret for the API. When set, every /api request must send X-API-Token (the web UI asks for it once and stores it in your browser). Empty = open API, for trusted LANs. |
 
 ## Adding a game
 
@@ -101,7 +102,7 @@ webui/                React + Vite + Tailwind, themed from game metadata
 
 ## Disclaimer
 
-Personal tool for personal accounts. Scraping and redemption hit the same public endpoints the official sites use — keep the delays generous, and know that game ToS may frown upon automation. If a redemption flow requires a captcha, HakkuAuto stops and hands you the code plus a link instead of trying to defeat it.
+Personal tool for personal accounts. Scraping and redemption hit the same public endpoints the official sites use — keep the delays generous, and know that game ToS may frown upon automation. If a redemption flow requires a captcha, HakkuAuto stops and hands you the code plus a link instead of trying to defeat it. HakkuAuto is designed to run on a trusted home LAN and is never meant for internet hosting; if other people use your network, set `API_TOKEN`.
 
 ## License
 
