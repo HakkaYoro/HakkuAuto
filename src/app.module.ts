@@ -7,6 +7,7 @@ import { GameRegistry } from './infrastructure/games/game-plugin';
 import { blueArchivePlugin } from './infrastructure/games/blue-archive/plugin';
 import { stellaSoraPlugin } from './infrastructure/games/stella-sora/plugin';
 import { brownDust2Plugin } from './infrastructure/games/brown-dust-2/plugin';
+import { nikkePlugin } from './infrastructure/games/nikke/plugin';
 import { getDatabase } from './infrastructure/persistence/sqlite/sqlite-database';
 import { SqliteGameCodeRepository } from './infrastructure/persistence/sqlite/game-code.repository';
 import { SqliteGameAccountRepository } from './infrastructure/persistence/sqlite/game-account.repository';
@@ -51,7 +52,7 @@ const DB = Symbol('SqliteDatabase');
     { provide: DB, useFactory: () => getDatabase() },
     {
       provide: TOKENS.GameRegistry,
-      useFactory: () => new GameRegistry([blueArchivePlugin, stellaSoraPlugin, brownDust2Plugin]),
+      useFactory: () => new GameRegistry([blueArchivePlugin, stellaSoraPlugin, brownDust2Plugin, nikkePlugin]),
     },
     { provide: TOKENS.GameCatalog, useExisting: TOKENS.GameRegistry },
     { provide: TOKENS.CodeSource, useExisting: TOKENS.GameRegistry },

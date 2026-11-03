@@ -45,6 +45,7 @@ flowchart LR
 | Blue Archive | [rentry.org/CouponBA](https://rentry.org/CouponBA) | [mcoupon.nexon.com/bluearchive](https://mcoupon.nexon.com/bluearchive) |
 | Stella Sora | VG247 listing | [stellasora.global/gift](https://stellasora.global/gift) |
 | Brown Dust 2 | [browndust2-db.souseha.com](https://browndust2-db.souseha.com/en/) | [redeem.bd2.pmang.cloud](https://redeem.bd2.pmang.cloud/bd2/index.html) |
+| Goddess of Victory: NIKKE | [Nikke-CDK-Tool CDK list](https://github.com/Small-tailqwq/Nikke-CDK-Tool) | [blablalink.com/cdk](https://www.blablalink.com/cdk) |
 
 Reverse-engineered redemption endpoints are documented in [`docs/redemption/`](docs/redemption/).
 

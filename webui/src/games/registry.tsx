@@ -85,11 +85,28 @@ function BrownDust2Guide() {
   );
 }
 
+function NikkeGuide() {
+  const { t } = useTranslation();
+  return (
+    <div className="rounded-xl border border-slate-800 bg-slate-950/50 p-3 text-xs text-slate-400">
+      <p>{t('nikke.help.sessionCookie')}</p>
+      <ol className="mt-2 list-decimal space-y-1 pl-4">
+        <li>{t('nikke.help.sessionCookie.step1')}</li>
+        <li>{t('nikke.help.sessionCookie.step2')}</li>
+        <li>{t('nikke.help.sessionCookie.step3')}</li>
+        <li>{t('nikke.help.sessionCookie.step4')}</li>
+      </ol>
+      <p className="mt-2">{t('nikke.help.manual')}</p>
+    </div>
+  );
+}
+
 /** Per-game UI customizations. Adding a game = one entry here (or nothing: generic fallback). */
 const REGISTRY: Record<string, GameCustomization> = {
   'blue-archive': { AccountGuide: BlueArchiveGuide, clickFx: HALO_FX },
   'stella-sora': { AccountGuide: StellaSoraGuide, clickFx: STAR_FX },
   'brown-dust-2': { AccountGuide: BrownDust2Guide },
+  'nikke': { AccountGuide: NikkeGuide },
 };
 
 export function gameCustomization(gameId: string): GameCustomization {
