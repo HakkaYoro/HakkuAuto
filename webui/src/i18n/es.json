@@ -44,6 +44,7 @@
   "accounts.empty": "Aún no hay cuentas de este juego.",
   "accounts.actionFailed": "La acción falló — revisa el servidor e inténtalo de nuevo.",
   "ba.help.memberCode": "Menú (esquina superior derecha) → Cuenta → Atención al cliente → tu código de miembro (12–13 caracteres).",
+  "ba.help.characterName": "El sitio oficial te pide elegir un personaje después del código — como acá el canje es automático, este nombre opcional le dice a quién entregar. Vacío = tu primer personaje.",
   "ss.help.uid": "Abre tu perfil en el juego y copia tu UID (mínimo 9 dígitos).",
   "ss.help.uid.step1": "Stella Sora → perfil (retrato)",
   "ss.help.uid.step2": "Copiar UID bajo el nombre",

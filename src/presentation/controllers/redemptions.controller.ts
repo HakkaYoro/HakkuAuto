@@ -17,10 +17,11 @@ export class RedemptionsController {
     @Query('limit') limit?: string,
   ) {
     const records = await this.history.execute({
-      gameId: gameId ? (GameId.from(gameId) as GameId) : undefined,
+      gameId: gameId ? GameId.from(gameId) : undefined,
       accountId,
       status: status && status in RedemptionStatus ? (status as RedemptionStatus) : undefined,
-      limit: limit ? Math.min(parseInt(limit, 10) || 100, 500) : undefined,
+      // Clamp to [1, 500]: SQLite treats a negative LIMIT as unlimited.
+      limit: limit ? Math.min(Math.max(parseInt(limit, 10) || 100, 1), 500) : undefined,
     });
     return records.map(serializeRecord);
   }

@@ -53,6 +53,7 @@ export default function App() {
             <input
               className="input flex-1"
               type="password"
+              aria-label={t('lock.placeholder')}
               placeholder={t('lock.placeholder')}
               value={token}
               onChange={(e) => setToken(e.target.value)}

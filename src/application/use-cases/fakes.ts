@@ -26,9 +26,7 @@ export class FakeCatalog implements GameCatalogPort {
 
 export class FakeCodeSource implements CodeSourcePort {
   entries: ScrapedCodeEntry[] = [];
-  fetchCalls = 0;
   async fetchLatest(): Promise<ScrapedCodeEntry[]> {
-    this.fetchCalls++;
     return this.entries;
   }
 }

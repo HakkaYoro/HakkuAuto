@@ -32,7 +32,7 @@ export default function Dashboard() {
                   style={{ background: `linear-gradient(115deg, ${game.theme.accent}55 0%, #0b1220 70%)` }}
                 />
               )}
-              <div className="absolute inset-0 flex items-end gap-2 bg-gradient-to-t from-slate-950/90 to-transparent p-3">
+              <div className="absolute inset-0 flex items-end gap-2 bg-linear-to-t from-slate-950/90 to-transparent p-3">
                 {game.theme.logoUrl && <img src={game.theme.logoUrl} alt="" className="size-8 rounded-md" />}
                 <h3 className="text-xl font-bold">{game.name}</h3>
               </div>

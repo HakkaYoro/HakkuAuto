@@ -64,13 +64,9 @@ export function GameHero({
   return (
     <div className="flex items-center gap-4 sm:gap-6">
       {bannerUrl && (
-        <div className="group relative hidden shrink-0 overflow-hidden rounded-2xl border border-slate-800 shadow-lg shadow-black/40 sm:block sm:w-64 md:w-80">
-          <img
-            src={bannerUrl}
-            alt=""
-            className="aspect-video w-full object-cover transition duration-500 group-hover:scale-105"
-          />
-          <div className="pointer-events-none absolute inset-0 bg-gradient-to-r from-transparent to-slate-950/30" />
+        <div className="relative hidden shrink-0 overflow-hidden rounded-2xl border border-slate-800 shadow-lg shadow-black/40 sm:block sm:w-64 md:w-80">
+          <img src={bannerUrl} alt="" className="aspect-video w-full object-cover" />
+          <div className="pointer-events-none absolute inset-0 bg-linear-to-r from-transparent to-slate-950/30" />
         </div>
       )}
       <div className="min-w-0 flex-1">

@@ -11,8 +11,6 @@ export enum RedemptionStatus {
   FAILED = 'FAILED',
 }
 
-export const SUCCESSFUL_STATUSES: readonly RedemptionStatus[] = [RedemptionStatus.SUCCESS, RedemptionStatus.ALREADY_USED];
-
 /** Terminal outcomes: a later scan can never change them, so auto-redeem skips them. */
 export const NON_RETRYABLE_STATUSES: readonly RedemptionStatus[] = [
   RedemptionStatus.SUCCESS,
@@ -43,7 +41,6 @@ export class RedemptionRecord extends Entity<string> {
     code: string;
     status: RedemptionStatus;
     rawMessage?: string;
-    attemptedAt?: Date;
   }): RedemptionRecord {
     return new RedemptionRecord({
       id: input.id,
@@ -52,7 +49,7 @@ export class RedemptionRecord extends Entity<string> {
       code: input.code,
       status: input.status,
       rawMessage: input.rawMessage,
-      attemptedAt: input.attemptedAt ?? new Date(),
+      attemptedAt: new Date(),
     });
   }
 
@@ -83,9 +80,5 @@ export class RedemptionRecord extends Entity<string> {
 
   get attemptedAt(): Date {
     return this.props.attemptedAt;
-  }
-
-  wasSuccessful(): boolean {
-    return SUCCESSFUL_STATUSES.includes(this.props.status);
   }
 }

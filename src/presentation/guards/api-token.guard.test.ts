@@ -23,15 +23,18 @@ describe('ApiTokenGuard', () => {
   it('rejects a missing header with 401', () => {
     const guard = new ApiTokenGuard('secret');
     expect(() => guard.canActivate(ctxWith({}))).toThrow(UnauthorizedException);
-    try {
-      guard.canActivate(ctxWith({}));
-    } catch (err) {
-      expect((err as UnauthorizedException).getStatus()).toBe(401);
-    }
   });
 
   it('rejects a wrong header with 401', () => {
     const guard = new ApiTokenGuard('secret');
     expect(() => guard.canActivate(ctxWith({ 'x-api-token': 'nope' }))).toThrow(UnauthorizedException);
+  });
+
+  it('rejects a duplicated (array) header with 401', () => {
+    const guard = new ApiTokenGuard('secret');
+    const ctx = {
+      switchToHttp: () => ({ getRequest: () => ({ headers: { 'x-api-token': ['secret', 'secret'] } }) }),
+    } as unknown as ExecutionContext;
+    expect(() => guard.canActivate(ctx)).toThrow(UnauthorizedException);
   });
 });

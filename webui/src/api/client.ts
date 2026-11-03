@@ -94,8 +94,7 @@ async function request<T>(path: string, init?: RequestInit): Promise<T> {
 
 export const api = {
   games: () => request<GameSummary[]>('/games'),
-  codes: (gameId: string, status?: string) =>
-    request<CodeDto[]>(`/games/${gameId}/codes${status ? `?status=${status}` : ''}`),
+  codes: (gameId: string) => request<CodeDto[]>(`/games/${gameId}/codes`),
   scan: (gameId: string) => request<ScanResult>(`/games/${gameId}/scan`, { method: 'POST' }),
   redeemAll: (gameId: string) =>
     request<{ attempts: number; successful: number }>(`/games/${gameId}/redeem-pending`, { method: 'POST' }),

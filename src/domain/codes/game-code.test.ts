@@ -36,14 +36,5 @@ describe('GameCode', () => {
     const past = new Date('2026-01-01T00:00:00Z');
     const code = GameCode.discover({ gameId: GLOBAL, code: 'OLDCODE12', expiresAt: past });
     expect(code.isExpired()).toBe(true);
-    code.expire(new Date('2026-06-01T00:00:00Z'));
-    expect(code.status).toBe(CodeStatus.EXPIRED);
-  });
-
-  it('expire before expiresAt throws', () => {
-    const future = new Date(Date.now() + 60_000);
-    const code = GameCode.discover({ gameId: GLOBAL, code: 'FUTURECD1', expiresAt: future });
-    expect(() => code.expire()).toThrow();
-    expect(code.status).toBe(CodeStatus.ACTIVE);
   });
 });

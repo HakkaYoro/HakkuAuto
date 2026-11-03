@@ -44,6 +44,7 @@
   "accounts.empty": "No accounts for this game yet.",
   "accounts.actionFailed": "Action failed — check the server and try again.",
   "ba.help.memberCode": "Menu (top-right) → Account → Customer Center → your member code (12–13 characters).",
+  "ba.help.characterName": "The official site asks you to pick a character after entering the member code — since redemption here is automatic, this optional name tells it who gets the items. Empty = your first character.",
   "ss.help.uid": "Open your profile in-game and copy your UID (at least 9 digits).",
   "ss.help.uid.step1": "Stella Sora → profile (portrait)",
   "ss.help.uid.step2": "Copy the UID under your name",

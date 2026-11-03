@@ -1,4 +1,4 @@
-import { ArgumentsHost, Catch, ExceptionFilter, HttpException, HttpStatus } from '@nestjs/common';
+import { ArgumentsHost, Catch, ExceptionFilter, HttpException, HttpStatus, Logger } from '@nestjs/common';
 import type { Response } from 'express';
 import { DomainError } from '../../domain/shared/errors';
 
@@ -7,6 +7,8 @@ const NOT_FOUND = ['NotFoundError'];
 /** Maps domain errors to HTTP semantics; everything else stays 500. */
 @Catch()
 export class DomainErrorFilter implements ExceptionFilter {
+  private readonly logger = new Logger(DomainErrorFilter.name);
+
   catch(exception: unknown, host: ArgumentsHost): void {
     const res = host.switchToHttp().getResponse<Response>();
 
@@ -23,7 +25,10 @@ export class DomainErrorFilter implements ExceptionFilter {
       return;
     }
 
-    const message = exception instanceof Error ? exception.message : 'Internal error';
-    res.status(HttpStatus.INTERNAL_SERVER_ERROR).json({ error: message });
+    // Unexpected errors keep their detail server-side only — their messages may
+    // carry internals (driver errors, paths) that must not reach the client.
+    const detail = exception instanceof Error ? (exception.stack ?? exception.message) : String(exception);
+    this.logger.error(detail);
+    res.status(HttpStatus.INTERNAL_SERVER_ERROR).json({ error: 'Internal error' });
   }
 }

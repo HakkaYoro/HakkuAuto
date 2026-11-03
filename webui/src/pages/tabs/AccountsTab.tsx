@@ -117,6 +117,7 @@ export default function AccountsTab({
           </div>
           <button
             onClick={() => void toggleAuto(acc)}
+            aria-pressed={acc.autoRedeem}
             className={`chip ${acc.autoRedeem ? 'bg-emerald-500/15 text-emerald-400' : 'bg-slate-700 text-slate-400'}`}
             title={t('accounts.autoRedeemHint')}
           >
