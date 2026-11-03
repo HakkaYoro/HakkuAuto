@@ -70,10 +70,26 @@ function StellaSoraGuide() {
   );
 }
 
+function BrownDust2Guide() {
+  const { t } = useTranslation();
+  return (
+    <div className="rounded-xl border border-slate-800 bg-slate-950/50 p-3 text-xs text-slate-400">
+      <p>{t('bd2.help.nickname')}</p>
+      <ol className="mt-2 list-decimal space-y-1 pl-4">
+        <li>{t('bd2.help.nickname.step1')}</li>
+        <li>{t('bd2.help.nickname.step2')}</li>
+        <li>{t('bd2.help.nickname.step3')}</li>
+      </ol>
+      <p className="mt-2">{t('bd2.help.mail')}</p>
+    </div>
+  );
+}
+
 /** Per-game UI customizations. Adding a game = one entry here (or nothing: generic fallback). */
 const REGISTRY: Record<string, GameCustomization> = {
   'blue-archive': { AccountGuide: BlueArchiveGuide, clickFx: HALO_FX },
   'stella-sora': { AccountGuide: StellaSoraGuide, clickFx: STAR_FX },
+  'brown-dust-2': { AccountGuide: BrownDust2Guide },
 };
 
 export function gameCustomization(gameId: string): GameCustomization {

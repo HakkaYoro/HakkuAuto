@@ -37,6 +37,7 @@
   "accounts.field.memberCode": "Member code",
   "accounts.field.characterName": "Target character",
   "accounts.field.uid": "UID",
+  "accounts.field.nickname": "Nickname",
   "accounts.autoRedeem": "Auto-redeem",
   "accounts.autoRedeemHint": "New codes will be redeemed automatically on this account",
   "accounts.verify": "Verify",
@@ -56,6 +57,12 @@
   "ss.help.uid.step1": "Stella Sora → profile (portrait)",
   "ss.help.uid.step2": "Copy the UID under your name",
   "ss.help.uid.step3": "Paste it here → Verify → Save",
+
+  "bd2.help.nickname": "Your in-game display name from your profile — not an email/login. Guest_XXXXX names work too.",
+  "bd2.help.nickname.step1": "Brown Dust 2 → profile (portrait)",
+  "bd2.help.nickname.step2": "Copy your nickname exactly as shown",
+  "bd2.help.nickname.step3": "Paste it here → Verify → Save",
+  "bd2.help.mail": "Rewards arrive in your in-game mailbox — restart the game to see them.",
 
   "history.title": "Redemption history",
   "history.empty": "No redemptions yet.",

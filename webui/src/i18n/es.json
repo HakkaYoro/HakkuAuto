@@ -37,6 +37,7 @@
   "accounts.field.memberCode": "Código de miembro",
   "accounts.field.characterName": "Personaje destino",
   "accounts.field.uid": "UID",
+  "accounts.field.nickname": "Apodo",
   "accounts.autoRedeem": "Canje automático",
   "accounts.autoRedeemHint": "Los códigos nuevos se canjearán solos en esta cuenta",
   "accounts.verify": "Verificar",
@@ -56,6 +57,12 @@
   "ss.help.uid.step1": "Stella Sora → perfil (retrato)",
   "ss.help.uid.step2": "Copiar UID bajo el nombre",
   "ss.help.uid.step3": "Pegarlo aquí → Verificar → Guardar",
+
+  "bd2.help.nickname": "Tu nombre visible dentro del juego, sacado de tu perfil — no un email/login. Los nombres Guest_XXXXX también valen.",
+  "bd2.help.nickname.step1": "Brown Dust 2 → perfil (retrato)",
+  "bd2.help.nickname.step2": "Copia tu apodo exactamente como aparece",
+  "bd2.help.nickname.step3": "Pégalo aquí → Verificar → Guardar",
+  "bd2.help.mail": "Las recompensas llegan al buzón dentro del juego — reinicia el juego para verlas.",
 
   "history.title": "Historial de canjes",
   "history.empty": "Sin canjes todavía.",

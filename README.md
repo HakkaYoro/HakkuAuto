@@ -44,6 +44,7 @@ flowchart LR
 | --- | --- | --- |
 | Blue Archive | [rentry.org/CouponBA](https://rentry.org/CouponBA) | [mcoupon.nexon.com/bluearchive](https://mcoupon.nexon.com/bluearchive) |
 | Stella Sora | VG247 listing | [stellasora.global/gift](https://stellasora.global/gift) |
+| Brown Dust 2 | [browndust2-db.souseha.com](https://browndust2-db.souseha.com/en/) | [redeem.bd2.pmang.cloud](https://redeem.bd2.pmang.cloud/bd2/index.html) |
 
 Reverse-engineered redemption endpoints are documented in [`docs/redemption/`](docs/redemption/).
 
@@ -79,6 +80,12 @@ npm test               # Vitest, 16 unit tests
 ## Adding a game
 
 Games are plugins. Create `src/infrastructure/games/<game-id>/` with a definition (metadata, servers, account fields, theme), a code-source adapter and a redemption adapter, then register the plugin — the domain, application layers and WebUI adapt from metadata alone. The full walkthrough lives in [AGENTS.md](AGENTS.md).
+
+## Special thanks
+
+- **[rm6alalauau](https://github.com/rm6alalauau)** — [The BD2 Pulse](https://thebd2pulse.com) / [BD2-Archive](https://github.com/rm6alalauau/BD2-Archive) (MIT): the public coupon endpoint and reference redemption flow behind the Brown Dust 2 adapter.
+- **souseha (WangCH)** — [BD2DB](https://browndust2-db.souseha.com/en/): the Brown Dust 2 coupon list this project scans.
+- **[/bag/ — Blue Archive general](https://8chan.moe/gacha/)** on 8chan.moe's /gacha/ board — maintainers of the [rentry.org/CouponBA](https://rentry.org/CouponBA) list behind the Blue Archive source.
 
 ## Architecture
 
