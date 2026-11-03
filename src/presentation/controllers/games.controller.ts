@@ -9,7 +9,7 @@ import type { CodeStatus } from '../../domain/codes/game-code';
 import { GameId } from '../../domain/games/game-id';
 import type { ScanSchedulerService, ScanAndRedeemResult } from '../../infrastructure/scheduler/scan-scheduler.service';
 import type { RedeemPendingCodesUseCase, AutoRedeemSummary } from '../../application/use-cases/redeem-pending-codes';
-import type { AccountVerifyInput } from '../../infrastructure/games/game-plugin';
+import { VerifyAccountDto } from '../dto/account.dto';
 import { serializeCode } from '../serializers';
 
 @Controller('games')
@@ -47,7 +47,7 @@ export class GamesController {
 
   /** Live credential check used by the per-game account setup page. */
   @Post(':gameId/verify')
-  async verify(@Param('gameId') gameId: string, @Body() input: AccountVerifyInput) {
+  async verify(@Param('gameId') gameId: string, @Body() input: VerifyAccountDto) {
     const plugin = this.registry.pluginFor(GameId.create(gameId));
     if (!plugin) throw new GameNotFoundError(gameId);
     return plugin.verify(input);

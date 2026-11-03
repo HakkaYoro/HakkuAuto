@@ -1,16 +1,12 @@
 {
-  "app.title": "HakkuAuto",
   "app.subtitle": "Códigos de gacha, encontrados y canjeados solos",
-  "lang.toggle": "EN",
   "nav.dashboard": "Inicio",
-
   "dashboard.heading": "Tus juegos",
   "dashboard.activeCodes": "códigos activos",
   "dashboard.accounts": "cuentas",
   "dashboard.enter": "Abrir",
   "dashboard.loading": "Cargando juegos…",
   "dashboard.empty": "No hay juegos habilitados.",
-
   "game.codes": "Códigos",
   "game.accounts": "Cuentas",
   "game.history": "Historial",
@@ -25,10 +21,8 @@
   "game.status.ACTIVE": "Activo",
   "game.status.EXPIRED": "Expirado",
   "game.expires": "Vence",
-  "game.never": "Sin fecha",
   "game.noCodes": "Sin códigos por ahora — pulsa «Escanear ahora».",
   "game.noAccountsHint": "Añade una cuenta para activar el canje automático.",
-
   "accounts.add": "Añadir cuenta",
   "accounts.edit": "Editar cuenta",
   "accounts.label": "Nombre (ej: Main, Alt1)",
@@ -48,32 +42,22 @@
   "accounts.delete": "Eliminar",
   "accounts.deleteConfirm": "¿Eliminar la cuenta «{{label}}»?",
   "accounts.empty": "Aún no hay cuentas de este juego.",
-  "accounts.manual": "Asistencia manual",
-
   "ba.help.memberCode": "Menú (esquina superior derecha) → Cuenta → Atención al cliente → tu código de miembro (12–13 caracteres).",
-  "ba.help.characterName": "El sitio oficial te pide elegir un personaje después del código — como acá el canje es automático, este nombre opcional le dice a quién entregar. Vacío = tu primer personaje.",
-
   "ss.help.uid": "Abre tu perfil en el juego y copia tu UID (mínimo 9 dígitos).",
   "ss.help.uid.step1": "Stella Sora → perfil (retrato)",
   "ss.help.uid.step2": "Copiar UID bajo el nombre",
   "ss.help.uid.step3": "Pegarlo aquí → Verificar → Guardar",
-
   "bd2.help.nickname": "Tu nombre visible dentro del juego, sacado de tu perfil — no un email/login. Los nombres Guest_XXXXX también valen.",
   "bd2.help.nickname.step1": "Brown Dust 2 → perfil (retrato)",
   "bd2.help.nickname.step2": "Copia tu apodo exactamente como aparece",
   "bd2.help.nickname.step3": "Pégalo aquí → Verificar → Guardar",
   "bd2.help.mail": "Las recompensas llegan al buzón dentro del juego — reinicia el juego para verlas.",
-
-  "history.title": "Historial de canjes",
   "history.empty": "Sin canjes todavía.",
-  "history.account": "Cuenta",
   "history.status.SUCCESS": "Éxito",
   "history.status.ALREADY_USED": "Ya usado",
   "history.status.EXPIRED": "Expirado",
   "history.status.INVALID_CODE": "Código inválido",
   "history.status.NEEDS_MANUAL": "Requiere manual",
   "history.status.FAILED": "Falló",
-
-  "error.generic": "Algo salió mal",
   "common.loading": "Cargando…"
 }

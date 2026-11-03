@@ -64,7 +64,7 @@ Local development:
 ```bash
 npm install
 npm run dev            # tsc watch + node --watch + vite dev (proxies /api)
-npm test               # Vitest, 16 unit tests
+npm test               # Vitest
 ```
 
 ## Configuration

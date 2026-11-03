@@ -17,7 +17,13 @@ export function validateAccountInput(
   }
 
   for (const field of definition.accountFields) {
-    const value = input.credentials[field.key]?.trim() ?? '';
+    const raw = input.credentials[field.key];
+    // Values arrive from untrusted JSON bodies: a non-string (object/array/number)
+    // must be rejected here, or it poisons the row and later `.trim()` calls throw.
+    if (raw !== undefined && raw !== null && typeof raw !== 'string') {
+      throw new InvalidAccountError(`credential "${field.key}" must be a string`);
+    }
+    const value = raw?.trim() ?? '';
     if (field.required && !value) {
       throw new InvalidAccountError(`missing required credential "${field.key}"`);
     }

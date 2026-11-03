@@ -44,6 +44,18 @@ describe('GameAccount', () => {
     expect(() => validateAccountInput(BA, { server: 'global', credentials: {} })).toThrow(InvalidAccountError);
   });
 
+  it('validateAccountInput rejects non-string credential values', () => {
+    expect(() =>
+      validateAccountInput(BA, { server: 'global', credentials: { memberCode: { nested: true } as never } }),
+    ).toThrow(InvalidAccountError);
+    expect(() =>
+      validateAccountInput(BA, { server: 'global', credentials: { memberCode: 42 as never } }),
+    ).toThrow(InvalidAccountError);
+    expect(() =>
+      validateAccountInput(BA, { server: 'global', credentials: { memberCode: ['A'] as never } }),
+    ).toThrow(InvalidAccountError);
+  });
+
   it('credential updates are copied (no shared references)', () => {
     const creds = { memberCode: 'A' };
     const acc = GameAccount.create({ id: 'a1', gameId: BA.id, label: 'Main', server: 'global', credentials: creds });

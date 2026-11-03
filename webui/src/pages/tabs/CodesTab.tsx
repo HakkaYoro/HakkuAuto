@@ -47,12 +47,15 @@ export default function CodesTab({
               {code.reward && <span>{code.reward} · </span>}
               {code.expiresAt && (
                 <span>
-                  {t('game.expires')} {new Date(code.expiresAt).toLocaleString()} ·{' '}
+                  {t('game.expires')} {new Date(code.expiresAt).toLocaleString()}
+                  {code.sourceUrl && ' · '}
                 </span>
               )}
-              <a href={code.sourceUrl ?? undefined} target="_blank" rel="noreferrer" className="hover:text-[var(--accent)]">
-                {new URL(code.sourceUrl ?? 'https://x.example').hostname}
-              </a>
+              {code.sourceUrl && (
+                <a href={code.sourceUrl} target="_blank" rel="noreferrer" className="hover:text-[var(--accent)]">
+                  {new URL(code.sourceUrl).hostname}
+                </a>
+              )}
             </p>
           </div>
           <div className="flex flex-wrap items-center gap-1.5">

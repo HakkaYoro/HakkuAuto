@@ -90,6 +90,7 @@ export default function GamePage() {
           <button
             key={name}
             onClick={() => setTab(name)}
+            aria-pressed={tab === name}
             className={`rounded-t-lg px-4 py-2 text-sm font-medium transition ${
               tab === name ? 'bg-slate-900 text-[var(--accent)]' : 'text-slate-400 hover:text-slate-200'
             }`}

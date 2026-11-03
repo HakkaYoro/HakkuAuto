@@ -1,4 +1,5 @@
-import { Module } from '@nestjs/common';
+import { Module, ValidationPipe } from '@nestjs/common';
+import { APP_FILTER, APP_PIPE } from '@nestjs/core';
 import { ScheduleModule } from '@nestjs/schedule';
 import type { DatabaseSync } from 'node:sqlite';
 import { TOKENS } from './infrastructure/di-tokens';
@@ -38,7 +39,11 @@ const DB = Symbol('SqliteDatabase');
   imports: [ScheduleModule.forRoot()],
   controllers: [GamesController, AccountsController, RedemptionsController],
   providers: [
-    DomainErrorFilter,
+    // Boundary enforcement: without APP_PIPE the class-validator DTOs never run, so
+    // request bodies reach the domain unvalidated. whitelist strips undeclared props.
+    { provide: APP_PIPE, useValue: new ValidationPipe({ whitelist: true, transform: true }) },
+    // Without APP_FILTER a filter class in providers is just an unused instance.
+    { provide: APP_FILTER, useClass: DomainErrorFilter },
     { provide: DB, useFactory: () => getDatabase() },
     {
       provide: TOKENS.GameRegistry,

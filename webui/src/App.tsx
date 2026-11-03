@@ -4,7 +4,7 @@ import { LANGS, setLanguage } from './i18n';
 import ClickFx from './components/click-fx';
 
 export default function App() {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
   const location = useLocation();
   return (
     <div className="mx-auto max-w-5xl px-4 pb-16">
@@ -19,7 +19,10 @@ export default function App() {
               {i > 0 && <span className="text-slate-600">·</span>}
               <button
                 onClick={() => setLanguage(lang.code)}
-                className="text-sm font-medium text-slate-400 transition hover:text-[var(--accent)]"
+                aria-pressed={i18n.language.startsWith(lang.code)}
+                className={`text-sm font-medium transition ${
+                  i18n.language.startsWith(lang.code) ? 'text-slate-200' : 'text-slate-400 hover:text-[var(--accent)]'
+                }`}
               >
                 {lang.label}
               </button>

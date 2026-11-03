@@ -67,4 +67,24 @@ describe('parseSousehaCoupons', () => {
     expect(parseSousehaCoupons({ data: [] })).toEqual([]);
     expect(parseSousehaCoupons({ data: [{ code: '   ' }, { code: 42 }, 'junk'] })).toEqual([]);
   });
+
+  it('treats hostile endDate as never-expires instead of Invalid Date', () => {
+    // Beyond 8.64e15 ms new Date() is Invalid Date; its getTime() (NaN) binds as NULL
+    // in node:sqlite and would silently turn the code into "never expires".
+    const entries = parseSousehaCoupons({
+      data: [
+        { code: 'TOOHUGE1', endDate: 1e308 },
+        { code: 'TOOHUGE2', endDate: 8.64e15 + 1 },
+        { code: 'ATLIMIT', endDate: 8.64e15 }, // exact ECMAScript ceiling: still a valid date
+        { code: 'NEGATIVE', endDate: -5 },
+        { code: 'GARBAGE', endDate: 'soon' },
+      ],
+    });
+    expect(entries.map((e) => e.code)).toEqual(['TOOHUGE1', 'TOOHUGE2', 'ATLIMIT', 'NEGATIVE', 'GARBAGE']);
+    expect(entries[0].expiresAt).toBeUndefined();
+    expect(entries[1].expiresAt).toBeUndefined();
+    expect(entries[2].expiresAt).toEqual(new Date(8.64e15));
+    expect(entries[3].expiresAt).toBeUndefined();
+    expect(entries[4].expiresAt).toBeUndefined();
+  });
 });

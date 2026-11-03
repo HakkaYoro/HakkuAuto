@@ -28,7 +28,9 @@ export function classifyBd2Error(errorCode: string): RedemptionStatus {
 }
 
 export async function redeemOnBrownDust2(account: GameAccount, code: GameCode): Promise<RedemptionResult> {
-  const nickname = account.credentials.nickname?.trim();
+  // typeof guard (not ?.trim()): a poisoned non-string credential must degrade to
+  // FAILED here, not throw before the try — a throw would abort the whole auto-redeem pass.
+  const nickname = typeof account.credentials.nickname === 'string' ? account.credentials.nickname.trim() : '';
   if (!nickname) return { status: RedemptionStatus.FAILED, rawMessage: 'account has no nickname configured' };
 
   try {
@@ -54,7 +56,7 @@ export async function redeemOnBrownDust2(account: GameAccount, code: GameCode): 
 }
 
 export async function verifyBrownDust2Account(input: AccountVerifyInput): Promise<{ ok: boolean; message?: string }> {
-  const nickname = input.credentials.nickname?.trim() ?? '';
+  const nickname = typeof input.credentials?.nickname === 'string' ? input.credentials.nickname.trim() : '';
   if (nickname.length < 2 || nickname.length > 20) {
     return { ok: false, message: 'Nickname must be 2–20 characters (in-game profile → copy).' };
   }

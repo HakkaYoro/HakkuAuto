@@ -44,8 +44,8 @@ export default function ClickFx() {
     };
     window.addEventListener('pointerdown', onDown, { passive: true });
     return () => window.removeEventListener('pointerdown', onDown);
-    // eslint-disable-next-line react-hooks/exhaustive-deps -- fx colors are frozen at spawn; the glyph renders fresh
-  }, []);
+    // fx is a module-constant per game, so this rebinds only when the route's themed fx changes.
+  }, [fx]);
 
   // The first particle's animationend retires the whole burst — no timers to clean up.
   const retire = (id: number) => setBursts((b) => b.filter((burst) => burst.id !== id));

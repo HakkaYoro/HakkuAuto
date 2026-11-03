@@ -1,16 +1,12 @@
 {
-  "app.title": "HakkuAuto",
   "app.subtitle": "Gacha codes, found and redeemed on their own",
-  "lang.toggle": "ES",
   "nav.dashboard": "Dashboard",
-
   "dashboard.heading": "Your games",
   "dashboard.activeCodes": "active codes",
   "dashboard.accounts": "accounts",
   "dashboard.enter": "Open",
   "dashboard.loading": "Loading games…",
   "dashboard.empty": "No games enabled.",
-
   "game.codes": "Codes",
   "game.accounts": "Accounts",
   "game.history": "History",
@@ -25,10 +21,8 @@
   "game.status.ACTIVE": "Active",
   "game.status.EXPIRED": "Expired",
   "game.expires": "Expires",
-  "game.never": "No date",
   "game.noCodes": "No codes yet — hit «Scan now».",
   "game.noAccountsHint": "Add an account to enable automatic redemption.",
-
   "accounts.add": "Add account",
   "accounts.edit": "Edit account",
   "accounts.label": "Name (e.g. Main, Alt1)",
@@ -48,32 +42,22 @@
   "accounts.delete": "Delete",
   "accounts.deleteConfirm": "Delete account «{{label}}»?",
   "accounts.empty": "No accounts for this game yet.",
-  "accounts.manual": "Manual assist",
-
   "ba.help.memberCode": "Menu (top-right) → Account → Customer Center → your member code (12–13 characters).",
-  "ba.help.characterName": "The official site asks you to pick a character after entering the member code — since redemption here is automatic, this optional name tells it who gets the items. Empty = your first character.",
-
   "ss.help.uid": "Open your profile in-game and copy your UID (at least 9 digits).",
   "ss.help.uid.step1": "Stella Sora → profile (portrait)",
   "ss.help.uid.step2": "Copy the UID under your name",
   "ss.help.uid.step3": "Paste it here → Verify → Save",
-
   "bd2.help.nickname": "Your in-game display name from your profile — not an email/login. Guest_XXXXX names work too.",
   "bd2.help.nickname.step1": "Brown Dust 2 → profile (portrait)",
   "bd2.help.nickname.step2": "Copy your nickname exactly as shown",
   "bd2.help.nickname.step3": "Paste it here → Verify → Save",
   "bd2.help.mail": "Rewards arrive in your in-game mailbox — restart the game to see them.",
-
-  "history.title": "Redemption history",
   "history.empty": "No redemptions yet.",
-  "history.account": "Account",
   "history.status.SUCCESS": "Success",
   "history.status.ALREADY_USED": "Already used",
   "history.status.EXPIRED": "Expired",
   "history.status.INVALID_CODE": "Invalid code",
   "history.status.NEEDS_MANUAL": "Needs manual",
   "history.status.FAILED": "Failed",
-
-  "error.generic": "Something went wrong",
   "common.loading": "Loading…"
 }
