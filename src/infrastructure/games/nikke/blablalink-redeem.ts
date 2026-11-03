@@ -40,24 +40,19 @@ interface BlaBlaEnvelope {
   data?: { area_id?: unknown };
 }
 
-const NIKKE_ERRORS: Record<string, RedemptionStatus> = {
-  '1302016': RedemptionStatus.ALREADY_USED,
-  '1302015': RedemptionStatus.INVALID_CODE,
-  '1302017': RedemptionStatus.EXPIRED,
-  '1302009': RedemptionStatus.FAILED,
-  '300001': RedemptionStatus.NEEDS_MANUAL,
-};
-
-const NIKKE_MESSAGES: Record<string, string> = {
-  '1302016': 'code already redeemed by this account',
-  '1302015': 'invalid CDK (check for typos)',
-  '1302017': 'CDK global uses exhausted',
-  '1302009': 'account redemption limit reached — retried on the next pass',
-  '300001': 'session cookie expired — re-login on blablalink.com and update the account cookie',
+const NIKKE_ERRORS: Record<string, { status: RedemptionStatus; message: string }> = {
+  '1302016': { status: RedemptionStatus.ALREADY_USED, message: 'code already redeemed by this account' },
+  '1302015': { status: RedemptionStatus.INVALID_CODE, message: 'invalid CDK (check for typos)' },
+  '1302017': { status: RedemptionStatus.EXPIRED, message: 'CDK global uses exhausted' },
+  '1302009': { status: RedemptionStatus.FAILED, message: 'account redemption limit reached — retried on the next pass' },
+  '300001': {
+    status: RedemptionStatus.NEEDS_MANUAL,
+    message: 'session cookie expired — re-login on blablalink.com and update the account cookie',
+  },
 };
 
 export function classifyNikkeError(code: string): RedemptionStatus {
-  return NIKKE_ERRORS[code] ?? RedemptionStatus.FAILED;
+  return NIKKE_ERRORS[code]?.status ?? RedemptionStatus.FAILED;
 }
 
 export async function redeemOnNikke(account: GameAccount, code: GameCode): Promise<RedemptionResult> {
@@ -71,10 +66,10 @@ export async function redeemOnNikke(account: GameAccount, code: GameCode): Promi
   try {
     const res = await postJson<BlaBlaEnvelope>(REDEEM_URL, { cdkey: code.code }, blablalinkHeaders(cookie));
     if (res.code === 0) return { status: RedemptionStatus.SUCCESS, rawMessage: res.msg || 'redeemed' };
-    const errorCode = String(res.code);
+    const known = NIKKE_ERRORS[String(res.code)];
     return {
-      status: classifyNikkeError(errorCode),
-      rawMessage: NIKKE_MESSAGES[errorCode] ?? `unexpected error code: ${errorCode}`,
+      status: known?.status ?? RedemptionStatus.FAILED,
+      rawMessage: known?.message ?? `unexpected error code: ${String(res.code)}`,
     };
   } catch (err) {
     const httpError = err as Error & { status?: number; body?: string };

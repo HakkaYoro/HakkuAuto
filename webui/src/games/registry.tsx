@@ -45,7 +45,6 @@ function BlueArchiveGuide() {
   const { t } = useTranslation();
   return (
     <div className="rounded-xl border border-slate-800 bg-slate-950/50 p-3">
-      <p className="mb-2 text-xs text-slate-400">{t('ba.help.memberCode')}</p>
       <img
         src={BA_OFFICIAL_GUIDE_IMG}
         alt={t('ba.help.memberCode')}
@@ -56,47 +55,21 @@ function BlueArchiveGuide() {
   );
 }
 
-function StellaSoraGuide() {
+/**
+ * Numbered how-to for a credential field. The field's one-line help (helpKey in
+ * the game definition) is already rendered by AccountsTab under the input, so
+ * the guide only adds the steps (plus an optional closing note).
+ */
+function Guide({ steps, trailing }: { steps: string[]; trailing?: string }) {
   const { t } = useTranslation();
   return (
     <div className="rounded-xl border border-slate-800 bg-slate-950/50 p-3 text-xs text-slate-400">
-      <p>{t('ss.help.uid')}</p>
-      <ol className="mt-2 list-decimal space-y-1 pl-4">
-        <li>{t('ss.help.uid.step1')}</li>
-        <li>{t('ss.help.uid.step2')}</li>
-        <li>{t('ss.help.uid.step3')}</li>
+      <ol className="list-decimal space-y-1 pl-4">
+        {steps.map((k) => (
+          <li key={k}>{t(k)}</li>
+        ))}
       </ol>
-    </div>
-  );
-}
-
-function BrownDust2Guide() {
-  const { t } = useTranslation();
-  return (
-    <div className="rounded-xl border border-slate-800 bg-slate-950/50 p-3 text-xs text-slate-400">
-      <p>{t('bd2.help.nickname')}</p>
-      <ol className="mt-2 list-decimal space-y-1 pl-4">
-        <li>{t('bd2.help.nickname.step1')}</li>
-        <li>{t('bd2.help.nickname.step2')}</li>
-        <li>{t('bd2.help.nickname.step3')}</li>
-      </ol>
-      <p className="mt-2">{t('bd2.help.mail')}</p>
-    </div>
-  );
-}
-
-function NikkeGuide() {
-  const { t } = useTranslation();
-  return (
-    <div className="rounded-xl border border-slate-800 bg-slate-950/50 p-3 text-xs text-slate-400">
-      <p>{t('nikke.help.sessionCookie')}</p>
-      <ol className="mt-2 list-decimal space-y-1 pl-4">
-        <li>{t('nikke.help.sessionCookie.step1')}</li>
-        <li>{t('nikke.help.sessionCookie.step2')}</li>
-        <li>{t('nikke.help.sessionCookie.step3')}</li>
-        <li>{t('nikke.help.sessionCookie.step4')}</li>
-      </ol>
-      <p className="mt-2">{t('nikke.help.manual')}</p>
+      {trailing && <p className="mt-2">{t(trailing)}</p>}
     </div>
   );
 }
@@ -104,9 +77,31 @@ function NikkeGuide() {
 /** Per-game UI customizations. Adding a game = one entry here (or nothing: generic fallback). */
 const REGISTRY: Record<string, GameCustomization> = {
   'blue-archive': { AccountGuide: BlueArchiveGuide, clickFx: HALO_FX },
-  'stella-sora': { AccountGuide: StellaSoraGuide, clickFx: STAR_FX },
-  'brown-dust-2': { AccountGuide: BrownDust2Guide },
-  'nikke': { AccountGuide: NikkeGuide },
+  'stella-sora': {
+    AccountGuide: () => <Guide steps={['ss.help.uid.step1', 'ss.help.uid.step2', 'ss.help.uid.step3']} />,
+    clickFx: STAR_FX,
+  },
+  'brown-dust-2': {
+    AccountGuide: () => (
+      <Guide
+        steps={['bd2.help.nickname.step1', 'bd2.help.nickname.step2', 'bd2.help.nickname.step3']}
+        trailing="bd2.help.mail"
+      />
+    ),
+  },
+  nikke: {
+    AccountGuide: () => (
+      <Guide
+        steps={[
+          'nikke.help.sessionCookie.step1',
+          'nikke.help.sessionCookie.step2',
+          'nikke.help.sessionCookie.step3',
+          'nikke.help.sessionCookie.step4',
+        ]}
+        trailing="nikke.help.manual"
+      />
+    ),
+  },
 };
 
 export function gameCustomization(gameId: string): GameCustomization {

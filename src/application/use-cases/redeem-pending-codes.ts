@@ -1,3 +1,4 @@
+import { setTimeout as sleep } from 'node:timers/promises';
 import type { GameAccountRepository } from '../../domain/accounts/game-account.repository';
 import type { GameCodeRepository } from '../../domain/codes/game-code.repository';
 import type { RedemptionRecordRepository } from '../../domain/redemptions/redemption-record.repository';
@@ -55,8 +56,4 @@ export class RedeemPendingCodesUseCase {
 
     return { gameId: gameId.value, attempts, successful };
   }
-}
-
-function sleep(ms: number): Promise<void> {
-  return new Promise((resolve) => setTimeout(resolve, ms));
 }

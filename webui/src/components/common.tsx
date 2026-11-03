@@ -1,13 +1,19 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import type { ReactNode } from 'react';
 
 /** Poll immediately on mount, then every N ms (no websockets needed at this scale). */
 export function usePolling(fn: () => void, ms = 20000): void {
+  // Latest-ref: callers pass inline arrows (GamePage does); keying this effect on fn
+  // would restart the interval — and immediately re-fetch — on every render.
+  const tick = useRef(fn);
   useEffect(() => {
-    fn();
-    const timer = setInterval(fn, ms);
+    tick.current = fn;
+  });
+  useEffect(() => {
+    tick.current();
+    const timer = setInterval(() => tick.current(), ms);
     return () => clearInterval(timer);
-  }, [fn, ms]);
+  }, [ms]);
 }
 
 export function Spinner({ label }: { label?: string }) {

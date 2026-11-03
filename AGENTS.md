@@ -60,7 +60,7 @@ Document the reverse-engineered redemption endpoints in `docs/redemption/<game-i
 
 ```
 npm run dev        # tsc watch + node --watch + vite dev (proxies /api → :3000)
-npm test           # node:test via tsx — no jest
+npm test           # vitest run — no jest
 npm run build      # tsc + vite build → dist/
 npm start          # node dist/main.js (serves API + WebUI)
 docker compose up --build   # production-style run, data in named volume
